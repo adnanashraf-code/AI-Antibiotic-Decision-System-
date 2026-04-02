@@ -310,7 +310,7 @@ const SettingsPage = ({ setView, user, setUser }) => {
 
               {/* Save Action */}
               <div className="flex justify-end gap-4 pt-4">
-                <button onClick={() => { localStorage.removeItem('aads_user'); window.location.reload(); }} className="bg-white border-2 border-error text-error hover:bg-error-container px-8 py-3 rounded-full font-bold shadow-sm transition-all active:scale-95">
+                <button onClick={() => { if (handleLogout) handleLogout(); else { localStorage.removeItem('aads_user'); window.location.href = '/'; } }} className="bg-white border-2 border-error text-error hover:bg-error-container px-8 py-3 rounded-full font-bold shadow-sm transition-all active:scale-95">
                   Logout Device
                 </button>
                 <button onClick={() => alert("✅ System Configuration Saved securely to AES-256 encrypted database.")} className="bg-primary hover:bg-primary-container text-white px-10 py-4 rounded-full font-bold shadow-lg transition-all active:scale-95">

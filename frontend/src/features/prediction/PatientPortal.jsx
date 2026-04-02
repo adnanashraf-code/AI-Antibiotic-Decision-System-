@@ -28,7 +28,7 @@ const PatientPortal = ({ setView, user }) => {
           <button onClick={() => setView('settings')} className="w-10 h-10 skeuo-btn p-0.5 overflow-hidden">
              <img src={user.avatar || "https://lh3.googleusercontent.com/aida-public/AB6AXuBv8Y9NIfgCxBpjqGCWHJ_7CGGVZRPLj0V7xuoj5GCiNCjJJocRADLsaVQzCkmCrPLSf168x_H-tRFUUcUE907N0aGgC9VAmhsF_R54gDVClGOqsQozAwMLDQyoeDYfvspkGuYvnMqfNpdOgORON7z0kxjU41RDfWabzSIGbI9abTZephIHZYlcnFRz8H_xsmJmAD2-JA3ZWnoBoy8yaKzwQTjfa860W2fakdjiXajkNFidcdopevR7a5G6n2wXaNOt1sCYypIG1azu"} alt="Profile" className="w-full h-full object-cover rounded-xl" />
           </button>
-          <button onClick={() => { localStorage.removeItem('aads_user'); window.location.reload(); }} className="skeuo-btn p-2 text-slate-500 hover:text-red-500 transition-colors">
+          <button onClick={() => { if (handleLogout) handleLogout(); else { localStorage.removeItem('aads_user'); window.location.href = '/'; } }} className="skeuo-btn p-2 text-slate-500 hover:text-red-500 transition-colors">
             <span className="material-symbols-outlined text-xl">logout</span>
           </button>
         </div>

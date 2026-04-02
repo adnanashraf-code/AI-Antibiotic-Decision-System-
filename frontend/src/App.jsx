@@ -23,6 +23,12 @@ function App() {
   });
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  const handleLogout = () => {
+    setUser(null);
+    setView('login');
+    setIsMobileMenuOpen(false);
+  };
+
   useEffect(() => {
     if (user) localStorage.setItem('aads_user', JSON.stringify(user));
     else localStorage.removeItem('aads_user');
@@ -34,7 +40,7 @@ function App() {
 
   if (view === "prediction") {
     if (user?.role === 'Patient') return <PatientPortal setView={setView} user={user} />;
-    return <PredictionPage setView={setView} user={user} />;
+    return <PredictionPage setView={setView} user={user} handleLogout={handleLogout} />;
   }
   
   if (view === "patients") {
@@ -43,12 +49,12 @@ function App() {
   }
   
   if (view === "labs") {
-    if (user?.role === 'Patient') return <PatientPortal setView={setView} user={user} />;
-    return <LabsPage setView={setView} user={user} />;
+    if (user?.role === 'Patient') return <PatientPortal setView={setView} user={user} handleLogout={handleLogout} />;
+    return <LabsPage setView={setView} user={user} handleLogout={handleLogout} />;
   }
 
   if (view === "settings") {
-    return <SettingsPage setView={setView} user={user} setUser={setUser} />;
+    return <SettingsPage setView={setView} user={user} setUser={setUser} handleLogout={handleLogout} />;
   }
 
   if (view === "patient-detail") {
@@ -141,7 +147,7 @@ function App() {
             <button onClick={() => { setView('support'); setIsMobileMenuOpen(false); }} className="w-full text-left p-4 skeuo-btn text-xs font-black uppercase tracking-widest text-slate-500">Support</button>
             {user && (
               <button 
-                onClick={() => { localStorage.removeItem('aads_user'); window.location.reload(); }} 
+                onClick={handleLogout}
                 className="w-full text-left p-4 skeuo-btn text-xs font-black uppercase tracking-widest text-red-500"
               >
                 Logout
