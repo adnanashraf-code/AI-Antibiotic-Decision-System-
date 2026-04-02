@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 const LabsPage = ({ setView, user }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
