@@ -14,6 +14,7 @@ const PredictionPage = ({ setView, user }) => {
   });
 
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [chatLog, setChatLog] = useState([
     { sender: 'AI', text: 'Hello doctor. I am your AADS Clinical Assistant. How can I help you interpret the latest antibiotic resistance prediction?' }
   ]);
@@ -77,60 +78,46 @@ const PredictionPage = ({ setView, user }) => {
   return (
     <div className="skeuo-bg font-body text-slate-700 antialiased flex overflow-hidden h-screen">
       {/* Sidebar Navigation */}
-      <aside className="h-screen w-64 fixed left-0 top-0 border-r border-white/40 bg-[#e0e5ec] flex flex-col p-4 gap-2 z-50 shadow-[4px_0_15px_rgba(163,177,198,0.2)]">
-        <div className="flex items-center gap-3 px-3 py-6 mb-4">
-          <div className="w-12 h-12 rounded-2xl skeuo-inner flex items-center justify-center text-blue-600">
-            <span className="material-symbols-outlined text-2xl" data-weight="fill" style={{fontVariationSettings: "'FILL' 1"}}>biotech</span>
+      {/* Sidebar Navigation */}
+      <aside className={`h-screen w-64 fixed lg:left-0 top-0 border-r border-white/40 bg-[#e0e5ec] flex flex-col p-4 gap-2 z-[60] shadow-[4px_0_15px_rgba(163,177,198,0.2)] transition-all duration-300 ${isMobileMenuOpen ? 'left-0' : '-left-64 lg:left-0'}`}>
+        <div className="flex items-center justify-between lg:justify-start gap-3 px-3 py-6 mb-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-2xl skeuo-inner flex items-center justify-center text-blue-600">
+              <span className="material-symbols-outlined text-xl lg:text-2xl" data-weight="fill" style={{fontVariationSettings: "'FILL' 1"}}>biotech</span>
+            </div>
+            <div>
+              <button onClick={() => setView('prediction')} className="font-headline font-black text-blue-800 tracking-tight cursor-pointer hover:opacity-80 transition-opacity text-left text-base lg:text-lg leading-tight uppercase">AADS Hub</button>
+              <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest leading-none mt-0.5">Clinical Engine</p>
+            </div>
           </div>
-          <div>
-            <button onClick={() => setView('prediction')} className="font-headline font-black text-blue-800 tracking-tight cursor-pointer hover:opacity-80 transition-opacity text-left text-lg leading-tight">AADS Dashboard</button>
-            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none mt-1">Clinical AI Engine</p>
-          </div>
+          <button onClick={() => setIsMobileMenuOpen(false)} className="lg:hidden text-slate-400 p-1 skeuo-btn">
+            <span className="material-symbols-outlined">close</span>
+          </button>
         </div>
         <nav className="flex-1 flex flex-col gap-2">
-          <button 
-            onClick={() => setView("patients")}
-            className="w-full flex items-center gap-3 px-4 py-3 text-slate-500 skeuo-btn font-inter text-sm font-bold"
-          >
-            <span className="material-symbols-outlined text-xl">group</span>
-            <span>Patients</span>
-          </button>
-          <button 
-            onClick={() => setView("prediction")}
-            className="w-full flex items-center gap-3 px-4 py-3 skeuo-inner text-blue-700 font-inter text-sm font-bold"
-          >
-            <span className="material-symbols-outlined text-xl" style={{fontVariationSettings: "'FILL' 1"}}>psychology_alt</span>
-            <span>Predictions</span>
-          </button>
-          <button 
-            onClick={() => setView("labs")}
-            className="w-full flex items-center gap-3 px-4 py-3 text-slate-500 skeuo-btn font-inter text-sm font-bold"
-          >
-            <span className="material-symbols-outlined text-xl">biotech</span>
-            <span>Labs</span>
-          </button>
+          {[
+            { id: 'patients', icon: 'group', label: 'Patients' },
+            { id: 'prediction', icon: 'psychology_alt', label: 'Predictions' },
+            { id: 'labs', icon: 'biotech', label: 'Labs' }
+          ].map(item => (
+            <button key={item.id} onClick={() => setView(item.id)} className={`w-full flex items-center gap-3 px-4 py-3 font-inter text-sm font-bold rounded-xl transition-all ${item.id === 'prediction' ? 'skeuo-inner text-blue-700' : 'text-slate-500 skeuo-btn hover:text-blue-600'}`}>
+              <span className="material-symbols-outlined text-xl" style={{fontVariationSettings: item.id === 'prediction' ? "'FILL' 1" : ""}}>{item.icon}</span>
+              <span>{item.label}</span>
+            </button>
+          ))}
           {user?.role === 'Admin' && (
-            <button 
-              onClick={() => setView("compliance")}
-              className="w-full flex items-center gap-3 px-4 py-3 text-slate-500 skeuo-btn font-inter text-sm font-bold"
-            >
+            <button onClick={() => setView("compliance")} className="w-full flex items-center gap-3 px-4 py-3 text-slate-500 skeuo-btn font-inter text-sm font-bold">
               <span className="material-symbols-outlined text-xl">verified_user</span>
               <span>Compliance</span>
             </button>
           )}
-          <button 
-            onClick={() => setView("settings")}
-            className="w-full flex items-center gap-3 px-4 py-3 text-slate-500 skeuo-btn font-inter text-sm font-bold"
-          >
+          <button onClick={() => setView("settings")} className="w-full flex items-center gap-3 px-4 py-3 text-slate-500 skeuo-btn font-inter text-sm font-bold">
             <span className="material-symbols-outlined text-xl">settings</span>
             <span>Settings</span>
           </button>
         </nav>
         <div className="mt-auto pt-6 border-t border-white/50 flex flex-col gap-2">
-          <button 
-            onClick={() => setView("prediction")}
-            className="mb-4 w-full py-4 skeuo-btn-primary font-headline font-black text-sm uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all"
-          >
+          <button onClick={() => setView("prediction")} className="mb-4 w-full py-4 skeuo-btn-primary font-headline font-black text-xs lg:text-sm uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all">
             New Analysis
           </button>
           <button onClick={() => setView('support')} className="flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-slate-600 text-xs w-full text-left font-bold transition-colors">
@@ -140,44 +127,46 @@ const PredictionPage = ({ setView, user }) => {
         </div>
       </aside>
 
+      {/* Mobile Overlay */}
+      {isMobileMenuOpen && (
+        <div onClick={() => setIsMobileMenuOpen(false)} className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[55] lg:hidden animate-fade-in"></div>
+      )}
+
       {/* Main Content Canvas */}
-      <main className="ml-64 flex-1 flex flex-col overflow-y-auto min-h-screen">
+      <main className="lg:ml-64 flex-1 flex flex-col overflow-y-auto min-h-screen">
         {/* Top App Bar */}
-        <header className="flex justify-between items-center w-full px-8 h-16 sticky top-0 bg-[#e0e5ec]/90 backdrop-blur-md z-40 border-b border-white/40 shadow-sm text-slate-800">
-          <div className="flex items-center flex-1 max-w-xl">
-            <div className="relative w-full">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">search</span>
-              <input className="skeuo-input w-full pl-12 pr-4 text-sm font-medium" placeholder="Search clinical protocols, isolates, and patients..." type="text"/>
+        <header className="flex justify-between items-center w-full px-4 lg:px-8 h-20 sticky top-0 bg-[#e0e5ec]/90 backdrop-blur-md z-40 border-b border-white/40 shadow-sm text-slate-800">
+          <div className="flex items-center gap-4 flex-1 max-w-xl">
+            <button onClick={() => setIsMobileMenuOpen(true)} className="lg:hidden p-2 skeuo-btn text-slate-500">
+              <span className="material-symbols-outlined">menu</span>
+            </button>
+            <div className="relative w-full hidden sm:block">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-sm">search</span>
+              <input className="skeuo-input w-full pl-10 pr-4 h-11 text-xs font-bold" placeholder="Universal Patient Search..." type="text"/>
             </div>
           </div>
-          <div className="flex items-center gap-6 ml-8">
-            <div className="flex items-center gap-4 border-r border-slate-200 pr-6">
-              <button onClick={() => setView('guidelines')} className="text-slate-500 hover:text-blue-700 transition-colors text-sm font-medium">Guidelines</button>
-              <button onClick={() => setView('compliance')} className="text-slate-500 hover:text-blue-700 transition-colors text-sm font-medium">Compliance</button>
+          <div className="flex items-center gap-4 lg:gap-6 ml-4">
+            <div className="hidden xl:flex items-center gap-4 border-r border-slate-200 pr-6">
+              <button onClick={() => setView('guidelines')} className="text-xs font-black uppercase text-slate-500 hover:text-blue-700 transition-colors">Manual</button>
+              <button onClick={() => setView('compliance')} className="text-xs font-black uppercase text-slate-500 hover:text-blue-700 transition-colors">Security</button>
             </div>
             <div className="flex items-center gap-4">
-              <button className="relative p-2 text-slate-500 hover:bg-slate-100 rounded-full transition-all">
-                <span className="material-symbols-outlined">notifications</span>
-                <span className="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+              <button className="relative skeuo-btn w-10 h-10 flex items-center justify-center text-slate-500">
+                <span className="material-symbols-outlined text-xl">notifications</span>
+                <span className="absolute top-2 right-2 w-2 h-2 bg-error rounded-full animate-pulse"></span>
               </button>
-              <div className="flex items-center gap-3 pl-2">
+              <div className="flex items-center gap-3">
                 {user ? (
-                  <div className="flex items-center gap-2">
-                    <button onClick={() => setView('settings')} className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity">
-                      <img alt={user.name} className="w-8 h-8 rounded-full object-cover border-2 border-primary/10" src={user.avatar || "https://lh3.googleusercontent.com/aida-public/AB6AXuD2uS2lGY_bf8Ot9773Ezc2WxFYEvMZ3pDPn3Rb3Kt0jhAolP-JU5GJFjOt65iiBNikm-1WRPCcEaTPTjxq210YjL0sKB9FNL_puITQYR4Y065F_BbhbwJgA0u5dnzeV4h9_vyck5_Xnk_wkEonet6f5DkHMKdISjRjUztP2vm4ATLjGrfqAy5eFGgCLnCFHQIL5sfyIHiTcXtVSK5MDOmQeSm4R9XwYd3G6784JXmTBxgImJY_VlcHo3dG60IR1v_9YZaCh6UuiFLq"}/>
-                      <span className="text-sm font-bold text-on-surface font-headline tracking-tight">{user.name}</span>
-                    </button>
-                    <button 
-                      onClick={() => { localStorage.removeItem('aads_user'); window.location.reload(); }} 
-                      className="text-xs font-bold text-slate-400 hover:text-error transition-colors px-2 py-1 ml-1 cursor-pointer"
-                      title="Logout"
-                    >
-                      <span className="material-symbols-outlined text-sm">logout</span>
-                    </button>
-                  </div>
+                  <button onClick={() => setView('settings')} className="flex items-center gap-2 group">
+                    <img alt={user.name} className="w-10 h-10 rounded-xl object-cover skeuo-btn p-0.5" src={user.avatar || "/logo.png"}/>
+                    <div className="hidden lg:block text-left">
+                      <p className="text-[10px] font-black text-slate-800 uppercase tracking-widest leading-none">{user.name}</p>
+                      <p className="text-[8px] font-bold text-slate-400 mt-0.5 uppercase tracking-tighter">MD Terminal</p>
+                    </div>
+                  </button>
                 ) : (
-                  <button onClick={() => setView('login')} className="bg-primary hover:bg-primary-container text-white px-5 py-2 rounded-full text-sm font-bold shadow-md transition-all active:scale-95">
-                    Login / Sign up
+                  <button onClick={() => setView('login')} className="skeuo-btn-primary px-5 py-2 text-[10px] font-black uppercase tracking-widest">
+                    Access
                   </button>
                 )}
               </div>
