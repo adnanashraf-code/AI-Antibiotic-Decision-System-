@@ -169,7 +169,6 @@ const PredictionPage = ({ setView, user }) => {
               <span className={`px-4 py-1.5 rounded-full role-bg-light role-text text-[10px] font-black uppercase tracking-widest border border-white/40`}>
                 Terminal: {roleLabel}
               </span>
-              {roleLabel === 'Admin' && <span className="px-3 py-1 bg-red-50 text-red-600 text-[10px] font-black uppercase tracking-widest rounded-full border border-red-100">Live Audit</span>}
             </div>
           </div>
           <div className="flex items-center gap-6">
