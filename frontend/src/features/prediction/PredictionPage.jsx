@@ -14,6 +14,9 @@ const PredictionPage = ({ setView, user }) => {
     previousUse: "No use in last 6 months"
   });
 
+  const roleTheme = user?.role === 'Researcher' ? 'theme-researcher' : user?.role === 'Admin' ? 'theme-admin' : 'theme-doctor';
+  const roleLabel = user?.role || "Doctor";
+
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [chatLog, setChatLog] = useState([
@@ -107,100 +110,86 @@ const PredictionPage = ({ setView, user }) => {
   };
 
   return (
-    <div className="skeuo-bg font-body text-slate-700 antialiased flex overflow-hidden h-screen">
+    <div className={`skeuo-bg font-body text-slate-700 antialiased flex overflow-hidden h-screen ${roleTheme}`}>
       {/* Sidebar Navigation */}
-      {/* Sidebar Navigation */}
-      <aside className={`h-screen w-64 fixed lg:left-0 top-0 border-r border-white/40 bg-[#e0e5ec] flex flex-col p-4 gap-2 z-[60] shadow-[4px_0_15px_rgba(163,177,198,0.2)] transition-all duration-300 ${isMobileMenuOpen ? 'left-0' : '-left-64 lg:left-0'}`}>
-        <div className="flex items-center justify-between lg:justify-start gap-3 px-3 py-6 mb-4">
+      <aside className={`h-screen w-64 fixed lg:left-0 top-0 border-r border-white/40 bg-[#e0e5ec] flex flex-col p-4 gap-2 z-[60] shadow-[10px_0_30px_rgba(163,177,198,0.2)] transition-all duration-300 ${isMobileMenuOpen ? 'left-0' : '-left-64 lg:left-0'}`}>
+        <div className="flex items-center justify-between lg:justify-start gap-4 px-3 py-8 mb-6">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-2xl skeuo-inner flex items-center justify-center text-blue-600">
-              <span className="material-symbols-outlined text-xl lg:text-2xl" data-weight="fill" style={{fontVariationSettings: "'FILL' 1"}}>biotech</span>
+            <div className={`w-12 h-12 rounded-2xl skeuo-inner flex items-center justify-center role-text`}>
+              <span className="material-symbols-outlined text-2xl" data-weight="fill" style={{fontVariationSettings: "'FILL' 1"}}>biotech</span>
             </div>
             <div>
-              <button onClick={() => setView('prediction')} className="font-headline font-black text-blue-800 tracking-tight cursor-pointer hover:opacity-80 transition-opacity text-left text-base lg:text-lg leading-tight uppercase">AADS Hub</button>
-              <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest leading-none mt-0.5">Clinical Engine</p>
+              <button onClick={() => setView('prediction')} className={`font-headline font-black tracking-tight cursor-pointer hover:opacity-80 transition-opacity text-left text-lg leading-tight uppercase role-text`}>AADS HUB</button>
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mt-1">Clinical Engine</p>
             </div>
           </div>
           <button onClick={() => setIsMobileMenuOpen(false)} className="lg:hidden text-slate-400 p-1 skeuo-btn">
             <span className="material-symbols-outlined">close</span>
           </button>
         </div>
-        <nav className="flex-1 flex flex-col gap-2">
+        <nav className="flex-1 flex flex-col gap-3 px-1">
           {[
             { id: 'patients', icon: 'group', label: 'Patients' },
-            { id: 'prediction', icon: 'psychology_alt', label: 'Predictions' },
+            { id: 'prediction', icon: 'psychology_alt', label: roleLabel === 'Researcher' ? 'Trend Node' : 'Predictions' },
             { id: 'labs', icon: 'biotech', label: 'Labs' }
           ].map(item => (
-            <button key={item.id} onClick={() => setView(item.id)} className={`w-full flex items-center gap-3 px-4 py-3 font-inter text-sm font-bold rounded-xl transition-all ${item.id === 'prediction' ? 'skeuo-inner text-blue-700' : 'text-slate-500 skeuo-btn hover:text-blue-600'}`}>
+            <button key={item.id} onClick={() => setView(item.id)} className={`w-full flex items-center gap-4 px-5 py-4 font-inter text-sm font-black rounded-2xl transition-all ${item.id === 'prediction' ? 'skeuo-inner role-text active-role-shadow' : 'text-slate-500 skeuo-btn hover:text-slate-800'}`}>
               <span className="material-symbols-outlined text-xl" style={{fontVariationSettings: item.id === 'prediction' ? "'FILL' 1" : ""}}>{item.icon}</span>
-              <span>{item.label}</span>
+              <span className="uppercase tracking-widest text-[11px]">{item.label}</span>
             </button>
           ))}
           {user?.role === 'Admin' && (
-            <button onClick={() => setView("compliance")} className="w-full flex items-center gap-3 px-4 py-3 text-slate-500 skeuo-btn font-inter text-sm font-bold">
+            <button onClick={() => setView("compliance")} className="w-full flex items-center gap-4 px-5 py-4 text-emerald-600 skeuo-btn font-inter text-[11px] font-black uppercase tracking-widest">
               <span className="material-symbols-outlined text-xl">verified_user</span>
               <span>Compliance</span>
             </button>
           )}
-          <button onClick={() => setView("settings")} className="w-full flex items-center gap-3 px-4 py-3 text-slate-500 skeuo-btn font-inter text-sm font-bold">
-            <span className="material-symbols-outlined text-xl">settings</span>
-            <span>Settings</span>
-          </button>
         </nav>
-        <div className="mt-auto pt-6 border-t border-white/50 flex flex-col gap-2">
-          <button onClick={() => setView("prediction")} className="mb-4 w-full py-4 skeuo-btn-primary font-headline font-black text-xs lg:text-sm uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all">
+        <div className="mt-auto pt-6 border-t border-white/50 flex flex-col gap-3">
+          <button onClick={() => setView("prediction")} className={`mb-4 w-full py-5 role-btn text-white rounded-2xl font-headline font-black text-[12px] uppercase tracking-[0.2em] transform active:scale-95 transition-all`}>
             New Analysis
-          </button>
-          <button onClick={() => setView('support')} className="flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-slate-600 text-xs w-full text-left font-bold transition-colors">
-            <span className="material-symbols-outlined text-lg">help_outline</span>
-            <span>Support Center</span>
           </button>
         </div>
       </aside>
 
       {/* Mobile Overlay */}
       {isMobileMenuOpen && (
-        <div onClick={() => setIsMobileMenuOpen(false)} className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[55] lg:hidden animate-fade-in"></div>
+        <div onClick={() => setIsMobileMenuOpen(false)} className="fixed inset-0 bg-slate-900/40 backdrop-blur-md z-[55] lg:hidden"></div>
       )}
 
       {/* Main Content Canvas */}
       <main className="lg:ml-64 flex-1 flex flex-col overflow-y-auto min-h-screen">
         {/* Top App Bar */}
-        <header className="flex justify-between items-center w-full px-4 lg:px-8 h-20 sticky top-0 bg-[#e0e5ec]/90 backdrop-blur-md z-40 border-b border-white/40 shadow-sm text-slate-800">
-          <div className="flex items-center gap-4 flex-1 max-w-xl">
-            <button onClick={() => setIsMobileMenuOpen(true)} className="lg:hidden p-2 skeuo-btn text-slate-500">
-              <span className="material-symbols-outlined">menu</span>
+        <header className="flex justify-between items-center w-full px-6 lg:px-10 h-24 sticky top-0 bg-[#e0e5ec]/80 backdrop-blur-2xl z-40 border-b border-white/40 shadow-sm text-slate-800">
+          <div className="flex items-center gap-6 flex-1 max-w-xl">
+            <button onClick={() => setIsMobileMenuOpen(true)} className="lg:hidden p-3 skeuo-btn text-slate-500">
+              <span className="material-symbols-outlined">menu_open</span>
             </button>
-            <div className="relative w-full hidden sm:block">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-sm">search</span>
-              <input className="skeuo-input w-full pl-10 pr-4 h-11 text-xs font-bold" placeholder="Universal Patient Search..." type="text"/>
+            <div className="hidden sm:flex items-center gap-4">
+              <span className={`px-4 py-1.5 rounded-full role-bg-light role-text text-[10px] font-black uppercase tracking-widest border border-white/40`}>
+                Terminal: {roleLabel}
+              </span>
+              {roleLabel === 'Admin' && <span className="px-3 py-1 bg-red-50 text-red-600 text-[10px] font-black uppercase tracking-widest rounded-full border border-red-100">Live Audit</span>}
             </div>
           </div>
-          <div className="flex items-center gap-4 lg:gap-6 ml-4">
-            <div className="hidden xl:flex items-center gap-4 border-r border-slate-200 pr-6">
-              <button onClick={() => setView('guidelines')} className="text-xs font-black uppercase text-slate-500 hover:text-blue-700 transition-colors">Manual</button>
-              <button onClick={() => setView('compliance')} className="text-xs font-black uppercase text-slate-500 hover:text-blue-700 transition-colors">Security</button>
+          <div className="flex items-center gap-6">
+            <div className="flex items-center gap-4 pr-6 border-r border-white/40">
+              <button onClick={() => setView('guidelines')} className="text-[10px] font-black uppercase text-slate-400 hover:role-text transition-colors tracking-widest">Protocol</button>
+              <button onClick={() => setView('compliance')} className="text-[10px] font-black uppercase text-slate-400 hover:role-text transition-colors tracking-widest">Security</button>
             </div>
             <div className="flex items-center gap-4">
-              <button className="relative skeuo-btn w-10 h-10 flex items-center justify-center text-slate-500">
+              <button className="skeuo-btn w-12 h-12 flex items-center justify-center text-slate-500">
                 <span className="material-symbols-outlined text-xl">notifications</span>
-                <span className="absolute top-2 right-2 w-2 h-2 bg-error rounded-full animate-pulse"></span>
               </button>
-              <div className="flex items-center gap-3">
-                {user ? (
-                  <button onClick={() => setView('settings')} className="flex items-center gap-2 group">
-                    <img alt={user.name} className="w-10 h-10 rounded-xl object-cover skeuo-btn p-0.5" src={user.avatar || "/logo.png"}/>
-                    <div className="hidden lg:block text-left">
-                      <p className="text-[10px] font-black text-slate-800 uppercase tracking-widest leading-none">{user.name}</p>
-                      <p className="text-[8px] font-bold text-slate-400 mt-0.5 uppercase tracking-tighter">MD Terminal</p>
-                    </div>
-                  </button>
-                ) : (
-                  <button onClick={() => setView('login')} className="skeuo-btn-primary px-5 py-2 text-[10px] font-black uppercase tracking-widest">
-                    Access
-                  </button>
-                )}
-              </div>
+              {user && (
+                <button onClick={() => setView('settings')} className="flex items-center gap-3 skeuo-btn p-1 border-white/60">
+                  <img alt={user.name} className="w-10 h-10 rounded-xl object-cover" src={user.avatar || "/logo.png"}/>
+                  <div className="hidden lg:block text-left pr-2">
+                    <p className="text-[10px] font-black text-slate-800 uppercase tracking-widest leading-none">{user.name}</p>
+                    <p className="text-[8px] font-bold text-slate-400 mt-1 uppercase tracking-tighter italic">ID: CL-9921</p>
+                  </div>
+                </button>
+              )}
             </div>
           </div>
         </header>
@@ -208,14 +197,18 @@ const PredictionPage = ({ setView, user }) => {
         {/* Dashboard Content */}
         <div className="p-8 lg:p-12 space-y-12">
           {/* Main Input Section */}
-          <section className="skeuo-card p-10 max-w-4xl mx-auto">
-            <div className="flex items-center gap-4 mb-8">
-              <div className="w-12 h-12 rounded-2xl skeuo-inner flex items-center justify-center text-blue-600">
-                <span className="material-symbols-outlined" style={{fontVariationSettings: "'FILL' 1"}}>microbiology</span>
+          <section className="skeuo-card-glass p-10 max-w-4xl mx-auto backdrop-blur-3xl">
+            <div className="flex items-center gap-6 mb-10">
+              <div className={`w-14 h-14 rounded-2xl skeuo-inner flex items-center justify-center role-text`}>
+                <span className="material-symbols-outlined text-3xl" style={{fontVariationSettings: "'FILL' 1"}}>microbiology</span>
               </div>
               <div>
-                <h2 className="text-2xl font-headline font-black text-slate-800 tracking-tight">Resistance Diagnostic Input</h2>
-                <p className="text-sm text-slate-500 font-bold uppercase tracking-widest">Neural Multi-modal Analysis</p>
+                <h2 className="text-3xl font-headline font-black text-slate-800 tracking-tight">Resistance Diagnostic Input</h2>
+                <div className="flex items-center gap-3 mt-1">
+                  <span className="px-3 py-0.5 rounded-full role-bg-light role-text text-[9px] font-black uppercase tracking-[0.1em]">Neural Multi-modal Analysis</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-slate-200"></span>
+                  <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">Security Protocol: v2.4</span>
+                </div>
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

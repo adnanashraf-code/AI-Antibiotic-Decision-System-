@@ -2,9 +2,11 @@ import { useState } from "react";
 
 const LabsPage = ({ setView, user }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const roleTheme = user?.role === 'Researcher' ? 'theme-researcher' : user?.role === 'Admin' ? 'theme-admin' : 'theme-doctor';
+  const roleLabel = user?.role || "Doctor";
 
   return (
-    <div className="skeuo-bg font-body text-slate-700 min-h-screen flex antialiased overflow-x-hidden">
+    <div className={`skeuo-bg font-body text-slate-700 min-h-screen flex antialiased overflow-x-hidden ${roleTheme}`}>
       {/* Sidebar Overlay */}
       {isMobileMenuOpen && (
         <div 
@@ -81,32 +83,31 @@ const LabsPage = ({ setView, user }) => {
       {/* Main Content Canvas */}
       <main className="flex-1 md:ml-64 min-h-screen flex flex-col w-full overflow-x-hidden">
         {/* Top App Bar */}
-        <header className="flex justify-between items-center w-full px-6 lg:px-8 h-16 border-b border-white/40 bg-[#e0e5ec]/90 backdrop-blur-md sticky top-0 z-40 shadow-sm text-slate-800">
-          <div className="flex items-center gap-4 lg:gap-8">
+        <header className="flex justify-between items-center w-full px-6 lg:px-10 h-24 border-b border-white/40 bg-[#e0e5ec]/80 backdrop-blur-2xl sticky top-0 z-40 shadow-sm text-slate-800">
+          <div className="flex items-center gap-6">
             <button 
               onClick={() => setIsMobileMenuOpen(true)}
-              className="md:hidden flex items-center justify-center w-10 h-10 skeuo-btn text-slate-600"
+              className="md:hidden flex items-center justify-center w-12 h-12 skeuo-btn text-slate-600"
             >
-              <span className="material-symbols-outlined">menu</span>
+              <span className="material-symbols-outlined">menu_open</span>
             </button>
-            <button onClick={() => setView('landing')} className="text-lg lg:text-xl font-black text-blue-800 uppercase tracking-tighter cursor-pointer hover:opacity-80 transition-opacity text-left">AADS Lab</button>
-            <div className="hidden lg:flex gap-8">
-              <button onClick={() => setView('guidelines')} className="text-slate-500 font-bold uppercase text-[10px] tracking-[0.2em] hover:text-blue-600 transition-colors">Guidelines</button>
-              <button onClick={() => setView('support')} className="text-slate-500 font-bold uppercase text-[10px] tracking-[0.2em] hover:text-blue-600 transition-colors">Support</button>
+            <div className="hidden sm:flex items-center gap-4">
+              <span className={`px-4 py-1.5 rounded-full role-bg-light role-text text-[10px] font-black uppercase tracking-widest border border-white/40`}>
+                Lab Monitor: {roleLabel}
+              </span>
             </div>
+            <button onClick={() => setView('landing')} className="text-xl font-black text-blue-800 uppercase tracking-tighter cursor-pointer hover:opacity-80 transition-opacity text-left hidden lg:block uppercase tracking-tighter">AADS LAB</button>
           </div>
-          <div className="flex items-center gap-4 lg:gap-6">
-            <div className="flex items-center gap-3 lg:gap-4 pl-4 lg:pl-6 border-l border-white/50">
-              {user ? (
-                <button onClick={() => setView('settings')} className="skeuo-btn w-10 h-10 p-0.5 overflow-hidden">
-                  <img alt={user.name} className="w-full h-full rounded-xl object-cover" src={user.avatar || "/logo.png"}/>
-                </button>
-              ) : (
-                <button onClick={() => setView('login')} className="skeuo-btn-primary px-6 lg:px-8 py-2 md:py-3 text-[10px] lg:text-xs font-black uppercase tracking-widest shadow-md">
-                  Portal
-                </button>
-              )}
-            </div>
+          <div className="flex items-center gap-6">
+            {user && (
+              <button onClick={() => setView('settings')} className="flex items-center gap-3 skeuo-btn p-1 border-white/60">
+                <img alt={user.name} className="w-10 h-10 rounded-xl object-cover" src={user.avatar || "/logo.png"}/>
+                <div className="hidden lg:block text-left pr-2">
+                  <p className="text-[10px] font-black text-slate-800 uppercase tracking-widest leading-none">{user.name}</p>
+                  <p className="text-[8px] font-bold text-slate-400 mt-1 uppercase tracking-tighter italic">ID: CL-9921</p>
+                </div>
+              </button>
+            )}
           </div>
         </header>
 
