@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import PredictionPage from "./features/prediction/PredictionPage";
 import PatientsPage from "./features/prediction/PatientsPage";
 import LabsPage from "./features/prediction/LabsPage";
@@ -81,25 +82,26 @@ function App() {
   // and they explicitly click to open form via view === 'login'
 
   return (
-    <div className="skeuo-bg font-body text-slate-700 selection:bg-blue-200 min-h-screen antialiased">
-      {/* Top Navigation Bar */}
-      <nav className="fixed top-0 w-full z-50 bg-[#e0e5ec]/90 backdrop-blur-md shadow-sm border-b border-white/50 flex justify-between items-center px-6 lg:px-10 h-20">
-        <div className="flex items-center gap-12">
-          <button onClick={() => {
-            if (!user) setView('landing');
-            else if (user.role === 'Patient') setView('patient-portal');
-            else setView('prediction');
-          }} className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity">
-            <img src="/logo.png" alt="AADS Logo" className="h-8 lg:h-10 w-auto"/>
-            <span className="text-2xl lg:text-3xl font-black text-blue-800 tracking-tighter font-headline uppercase">AADS</span>
-          </button>
-          
-          <div className="hidden lg:flex gap-4">
-            <button onClick={() => setView('guidelines')} className="skeuo-btn px-6 py-3 text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-blue-700">Guidelines</button>
-            <button onClick={() => setView('compliance')} className="skeuo-btn px-6 py-3 text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-blue-700">Audit</button>
-            <button onClick={() => setView('support')} className="skeuo-btn px-6 py-3 text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-blue-700">Support</button>
+    <GoogleOAuthProvider clientId="824040441534-v9b83k6f77i59j5q960e6n9r66v3q53f.apps.googleusercontent.com">
+      <div className="skeuo-bg font-body text-slate-700 selection:bg-blue-200 min-h-screen antialiased">
+        {/* Top Navigation Bar */}
+        <nav className="fixed top-0 w-full z-50 bg-[#e0e5ec]/90 backdrop-blur-md shadow-sm border-b border-white/50 flex justify-between items-center px-6 lg:px-10 h-20">
+          <div className="flex items-center gap-12">
+            <button onClick={() => {
+              if (!user) setView('landing');
+              else if (user.role === 'Patient') setView('patient-portal');
+              else setView('prediction');
+            }} className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity">
+              <img src="/logo.png" alt="AADS Logo" className="h-8 lg:h-10 w-auto"/>
+              <span className="text-2xl lg:text-3xl font-black text-blue-800 tracking-tighter font-headline uppercase">AADS</span>
+            </button>
+            
+            <div className="hidden lg:flex gap-4">
+              <button onClick={() => setView('guidelines')} className="skeuo-btn px-6 py-3 text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-blue-700">Guidelines</button>
+              <button onClick={() => setView('compliance')} className="skeuo-btn px-6 py-3 text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-blue-700">Audit</button>
+              <button onClick={() => setView('support')} className="skeuo-btn px-6 py-3 text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-blue-700">Support</button>
+            </div>
           </div>
-        </div>
 
         <div className="flex items-center gap-4 lg:gap-6">
           <button className="hidden sm:flex skeuo-btn w-12 h-12 items-center justify-center text-slate-400 hover:text-blue-600 transition-colors">
@@ -334,7 +336,8 @@ function App() {
           </div>
         </div>
       </footer>
-    </div>
+      </div>
+    </GoogleOAuthProvider>
   );
 }
 

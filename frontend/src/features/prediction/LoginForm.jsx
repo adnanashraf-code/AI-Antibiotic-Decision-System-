@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 
 const LoginForm = ({ onLogin }) => {
   const [isLogin, setIsLogin] = useState(true);
@@ -65,15 +67,28 @@ const LoginForm = ({ onLogin }) => {
     }
   };
 
-  const handleGoogleAuth = () => {
-    // Simulate Google Login for any email entered, or create a mock user dynamically
-    const email = formData.email || "mock.user@hospital.org";
-    onLogin({
-      name: email.split('@')[0].replace('.', ' '),
-      email: email,
-      role: "Google Authenticated User"
-    });
-  };
+  const loginWithGoogle = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      try {
+        const userInfo = await axios.get(
+          "https://www.googleapis.com/oauth2/v3/userinfo",
+          { headers: { Authorization: `Bearer ${tokenResponse.access_token}` } }
+        );
+
+        const { name, email, picture } = userInfo.data;
+        onLogin({
+          name: name,
+          email: email,
+          avatar: picture,
+          role: "Doctor" // Default to Doctor for Google logins for demo
+        });
+      } catch (error) {
+        console.error("Google login failed", error);
+        alert("Google Authentication failed. Please try again.");
+      }
+    },
+    onError: () => alert("Google Login Failed")
+  });
 
   return (
     <div className="min-h-screen bg-[#f7f9fb] flex items-center justify-center p-4">
@@ -186,7 +201,7 @@ const LoginForm = ({ onLogin }) => {
 
           <button 
             type="button" 
-            onClick={handleGoogleAuth}
+            onClick={() => loginWithGoogle()}
             className="clay-btn w-full mt-6 py-4 flex items-center justify-center gap-3 text-slate-600 font-bold text-sm"
           >
             <img src="https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA" alt="Google" className="w-5 h-5"/>
