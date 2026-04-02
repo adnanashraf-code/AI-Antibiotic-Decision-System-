@@ -449,36 +449,40 @@ const PredictionPage = ({ setView, user }) => {
                     </h4>
                     <p className="text-sm text-slate-500 mb-6 font-medium">Automated clinical rationale explaining why alternative broad-spectrum options were strictly rejected or not optimized by the neural engine.</p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {data.antibiotics?.filter(a => a.name !== data.best && a.resistance > 0.3).map((abx, idx) => (
-                        <div key={`err-${idx}`} className="flex items-start gap-4 p-5 rounded-2xl bg-gradient-to-br from-error/5 to-transparent border border-error/10 hover:border-error/20 transition-all group">
-                          <div className="w-8 h-8 rounded-full bg-error/10 flex items-center justify-center text-error group-hover:scale-110 transition-transform">
-                            <span className="material-symbols-outlined text-sm" style={{fontVariationSettings: "'FILL' 1"}}>cancel</span>
+                      {data.antibiotics?.filter(a => a.name !== data.best && a.resistance > 0.3).map((abx, idx) => {
+                        return (
+                          <div key={`err-${idx}`} className="flex items-start gap-4 p-5 rounded-2xl bg-gradient-to-br from-error/5 to-transparent border border-error/10 hover:border-error/20 transition-all group">
+                            <div className="w-8 h-8 rounded-full bg-error/10 flex items-center justify-center text-error group-hover:scale-110 transition-transform">
+                              <span className="material-symbols-outlined text-sm" style={{fontVariationSettings: "'FILL' 1"}}>cancel</span>
+                            </div>
+                            <div>
+                              <p className="text-sm font-bold text-slate-800">
+                                <span className="text-error">{abx.name}</span> rejected
+                              </p>
+                              <p className="text-[11px] text-slate-500 mt-1 leading-relaxed">
+                                <strong>Clinical Finding:</strong> High baseline resistance (&gt;{(abx.resistance * 100).toFixed(0)}%). The predictive risk index exceeds safe thresholds for {form.bacteria || "this isolation group"}.
+                              </p>
+                            </div>
                           </div>
-                          <div>
-                            <p className="text-sm font-bold text-slate-800">
-                              <span className="text-error">{abx.name}</span> rejected
-                            </p>
-                            <p className="text-[11px] text-slate-500 mt-1 leading-relaxed">
-                              <strong>Clinical Finding:</strong> High baseline resistance ({(abx.resistance * 100).toFixed(0)}%). The predictive risk index exceeds safe thresholds for {form.bacteria || "this isolation group"}.
-                            </p>
+                        );
+                      })}
+                      {data.antibiotics?.filter(a => a.name !== data.best && a.resistance <= 0.3).map((abx, idx) => {
+                        return (
+                          <div key={`info-${idx}`} className="flex items-start gap-4 p-5 rounded-2xl bg-gradient-to-br from-slate-50 to-transparent border border-slate-100 hover:border-slate-200 transition-all group">
+                            <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 group-hover:scale-110 transition-transform">
+                              <span className="material-symbols-outlined text-sm" style={{fontVariationSettings: "'FILL' 1"}}>info</span>
+                            </div>
+                            <div>
+                              <p className="text-sm font-bold text-slate-800">
+                                {abx.name} not optimal
+                              </p>
+                              <p className="text-[11px] text-slate-500 mt-1 leading-relaxed">
+                                <strong>AI Insight:</strong> Has reasonable susceptibility (&gt;{(100 - abx.resistance * 100).toFixed(0)}%) but <span className="font-semibold text-primary">{data.best}</span> shows a statistically superior safety-to-efficacy ratio.
+                              </p>
+                            </div>
                           </div>
-                        </div>
-                      ))}
-                      {data.antibiotics?.filter(a => a.name !== data.best && a.resistance <= 0.3).map((abx, idx) => (
-                        <div key={`info-${idx}`} className="flex items-start gap-4 p-5 rounded-2xl bg-gradient-to-br from-slate-50 to-transparent border border-slate-100 hover:border-slate-200 transition-all group">
-                          <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 group-hover:scale-110 transition-transform">
-                            <span className="material-symbols-outlined text-sm" style={{fontVariationSettings: "'FILL' 1"}}>info</span>
-                          </div>
-                          <div>
-                            <p className="text-sm font-bold text-slate-800">
-                              {abx.name} not optimal
-                            </p>
-                            <p className="text-[11px] text-slate-500 mt-1 leading-relaxed">
-                              <strong>AI Insight:</strong> Has reasonable susceptibility ({(100 - abx.resistance * 100).toFixed(0)}%) but <span className="font-semibold text-primary">{data.best}</span> shows a statistically superior safety-to-efficacy ratio.
-                            </p>
-                          </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   </div>
                 </>
