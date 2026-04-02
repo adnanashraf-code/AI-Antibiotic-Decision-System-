@@ -48,10 +48,24 @@ const PredictionPage = ({ setView, user }) => {
     setIsLoading(true);
     setError(null);
     try {
+      const riskMap = {
+        "None": 0,
+        "Diabetes": 3,
+        "COPD": 4,
+        "Heart Failure": 5,
+        "Chronic Liver Disease": 6,
+        "Malignancy/Cancer": 7,
+        "Renal Failure": 8,
+        "Chronic Kidney Disease": 5,
+        "Hypertension": 2,
+        "Asthma": 2,
+        "Immunocompromised": 9
+      };
+
       const result = await predictResistance({
         bacteria: form.bacteria,
-        feature1: Number(form.age) || 30, // mapping age to feature1
-        feature2: form.comorbidities === "None" ? 0 : 5 // arbitrary map
+        feature1: Number(form.age) || 35,
+        feature2: riskMap[form.comorbidities] || 0
       });
       setData(result);
       
@@ -217,8 +231,16 @@ const PredictionPage = ({ setView, user }) => {
                 >
                   <option>None</option>
                   <option>Diabetes</option>
-                  <option>Immunocompromised</option>
-                  <option>Renal Failure</option>
+                  <option>COPD (Chronic Lung Disease)</option>
+                  <option>Heart Failure</option>
+                  <option>Chronic Liver Disease</option>
+                  <option>Malignancy/Cancer</option>
+                  <option>Renal Failure (Stage 4-5)</option>
+                  <option>Chronic Kidney Disease (Stage 1-3)</option>
+                  <option>Hypertension</option>
+                  <option>Asthma</option>
+                  <option>Immunocompromised (HIV/Chemo)</option>
+                  <option>Obesity (BMI &gt; 35)</option>
                 </select>
               </div>
               <div className="space-y-2">
