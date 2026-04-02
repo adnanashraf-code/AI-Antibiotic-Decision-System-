@@ -602,7 +602,7 @@ const PredictionPage = ({ setView, user }) => {
                 placeholder="Query clinical engine..." 
                 className="flex-1 bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-xs font-bold text-white focus:ring-1 focus:ring-white/20 outline-none transition-all placeholder:text-slate-600"
                 value={chatInput}
-                onChange={(e) => setValue(e.target.value)}
+                onChange={(e) => setChatInput(e.target.value)}
               />
               <button className="w-12 h-12 rounded-2xl role-btn text-white flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-xl glow-role">
                 <span className="material-symbols-outlined text-sm">send</span>

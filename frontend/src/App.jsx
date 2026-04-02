@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { GoogleOAuthProvider } from "@react-oauth/google";
 import PredictionPage from "./features/prediction/PredictionPage";
 import PatientsPage from "./features/prediction/PatientsPage";
 import LabsPage from "./features/prediction/LabsPage";
@@ -18,8 +17,13 @@ function App() {
     return saved ? "landing" : "login";
   }); // "landing", "prediction", "patients", "login", etc.
   const [user, setUser] = useState(() => {
-    const saved = localStorage.getItem('aads_user');
-    return saved ? JSON.parse(saved) : null;
+    try {
+      const saved = localStorage.getItem('aads_user');
+      return saved ? JSON.parse(saved) : null;
+    } catch (e) {
+      console.error("Failed to parse saved user", e);
+      return null;
+    }
   });
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -88,8 +92,7 @@ function App() {
   // and they explicitly click to open form via view === 'login'
 
   return (
-    <GoogleOAuthProvider clientId="824040441534-v9b83k6f77i59j5q960e6n9r66v3q53f.apps.googleusercontent.com">
-      <div className="skeuo-bg font-body text-slate-700 selection:bg-blue-200 min-h-screen antialiased">
+    <div className="skeuo-bg font-body text-slate-700 selection:bg-blue-200 min-h-screen antialiased">
         {/* Top Navigation Bar */}
         <nav className="fixed top-0 w-full z-50 bg-[#e0e5ec]/90 backdrop-blur-md shadow-sm border-b border-white/50 flex justify-between items-center px-6 lg:px-10 h-20">
           <div className="flex items-center gap-12">
@@ -331,7 +334,7 @@ function App() {
               <button key={link} className="text-[9px] lg:text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 hover:text-blue-700 transition-colors">{link}</button>
             ))}
           </div>
--
+
           <div className="flex justify-center md:justify-end gap-6 order-3">
             <button className="skeuo-btn w-12 lg:w-14 h-12 lg:h-14 flex items-center justify-center text-slate-400 hover:text-blue-600">
               <span className="material-symbols-outlined">description</span>
@@ -343,7 +346,6 @@ function App() {
         </div>
       </footer>
       </div>
-    </GoogleOAuthProvider>
   );
 }
 

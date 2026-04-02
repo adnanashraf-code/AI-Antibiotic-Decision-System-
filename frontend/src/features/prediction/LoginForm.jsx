@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { useGoogleLogin } from "@react-oauth/google";
-import axios from "axios";
 
 const LoginForm = ({ onLogin }) => {
   const [isLogin, setIsLogin] = useState(true);
@@ -67,28 +65,7 @@ const LoginForm = ({ onLogin }) => {
     }
   };
 
-  const loginWithGoogle = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      try {
-        const userInfo = await axios.get(
-          "https://www.googleapis.com/oauth2/v3/userinfo",
-          { headers: { Authorization: `Bearer ${tokenResponse.access_token}` } }
-        );
 
-        const { name, email, picture } = userInfo.data;
-        onLogin({
-          name: name,
-          email: email,
-          avatar: picture,
-          role: "Doctor" // Default to Doctor for Google logins for demo
-        });
-      } catch (error) {
-        console.error("Google login failed", error);
-        alert("Google Authentication failed. Please try again.");
-      }
-    },
-    onError: () => alert("Google Login Failed")
-  });
 
   return (
     <div className="min-h-screen bg-[#f7f9fb] flex items-center justify-center p-4">
@@ -193,20 +170,7 @@ const LoginForm = ({ onLogin }) => {
             </button>
           </form>
 
-          <div className="mt-8 flex items-center justify-center space-x-4">
-            <div className="h-px bg-slate-300 flex-1"></div>
-            <span className="text-xs text-slate-400 font-medium uppercase tracking-widest">Or</span>
-            <div className="h-px bg-slate-300 flex-1"></div>
-          </div>
 
-          <button 
-            type="button" 
-            onClick={() => loginWithGoogle()}
-            className="clay-btn w-full mt-6 py-4 flex items-center justify-center gap-3 text-slate-600 font-bold text-sm"
-          >
-            <img src="https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA" alt="Google" className="w-5 h-5"/>
-            Continue with Google
-          </button>
 
           <div className="mt-10 text-center">
             <p className="text-sm text-slate-500">
