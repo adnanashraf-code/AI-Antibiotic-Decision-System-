@@ -545,67 +545,67 @@ const PredictionPage = ({ setView, user }) => {
       {/* Floating AI Prompt & Connect Chatbot (Killer Feature #2) */}
       <div className="fixed bottom-8 right-8 z-50 flex flex-col items-end gap-4">
         {isChatOpen && (
-          <div className="bg-white/60 backdrop-blur-2xl rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-white/50 w-80 lg:w-96 h-[500px] flex flex-col overflow-hidden animate-fade-in-up">
-            <div className={`p-5 flex justify-between items-center role-bg-light/80 border-b border-white/40`}>
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full role-btn flex items-center justify-center text-white">
-                  <span className="material-symbols-outlined text-[16px]">smart_toy</span>
+          <div className="glass-dark rounded-[32px] w-80 lg:w-96 h-[550px] flex flex-col overflow-hidden animate-fade-in-up border border-white/5 relative">
+            {/* Header */}
+            <div className={`p-6 flex justify-between items-center bg-white/5 border-b border-white/5`}>
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-2xl role-btn flex items-center justify-center text-white glow-role">
+                  <span className="material-symbols-outlined text-[20px]">smart_toy</span>
                 </div>
                 <div>
-                  <span className="font-bold text-xs role-text uppercase tracking-widest">AADS Clinical Bot</span>
-                  <p className="text-[8px] font-black text-slate-400 uppercase tracking-tighter">Neural Isolate Analysis</p>
+                  <span className="font-black text-xs text-white uppercase tracking-[0.2em] block">AADS NODE-AI</span>
+                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Status: Operational</p>
                 </div>
               </div>
-              <button onClick={() => setIsChatOpen(false)} className="hover:opacity-80 p-1 skeuo-btn w-8 h-8 flex items-center justify-center text-slate-400">
-                <span className="material-symbols-outlined text-sm">close</span>
+              <button onClick={() => setIsChatOpen(false)} className="hover:bg-white/10 p-2 rounded-xl transition-colors text-slate-400">
+                <span className="material-symbols-outlined text-md">close</span>
               </button>
             </div>
             
-            <div className="flex-1 overflow-y-auto p-5 space-y-4 no-scrollbar">
+            <div className="flex-1 overflow-y-auto p-6 space-y-5 no-scrollbar">
               {chatLog.map((msg, i) => (
                 <div key={i} className={`flex ${msg.sender === 'AI' ? 'justify-start' : 'justify-end'}`}>
-                  <div className={`max-w-[85%] p-4 rounded-2xl text-[11px] leading-relaxed ${msg.sender === 'AI' ? 'bg-white/80 text-slate-700 rounded-tl-none font-medium shadow-sm border border-white/20' : 'role-btn text-white rounded-tr-none font-bold shadow-lg'}`}>
+                  <div className={`max-w-[85%] p-4 rounded-3xl text-[11px] leading-relaxed shadow-lg ${msg.sender === 'AI' ? 'bg-slate-800/80 text-slate-200 border border-white/10 rounded-tl-none font-medium' : 'role-btn text-white rounded-tr-none font-bold glow-role'}`}>
                     {msg.text}
                   </div>
                 </div>
               ))}
               {isTyping && (
                 <div className="flex justify-start">
-                  <div className="bg-white/80 p-3 rounded-2xl rounded-tl-none flex gap-1 items-center h-8 shadow-sm">
-                    <div className={`w-1 h-1 role-bg-light/60 rounded-full animate-bounce`}></div>
-                    <div className={`w-1 h-1 role-bg-light/60 rounded-full animate-bounce [animation-delay:0.2s]`}></div>
-                    <div className={`w-1 h-1 role-bg-light/60 rounded-full animate-bounce [animation-delay:0.4s]`}></div>
+                  <div className="bg-slate-800/80 p-4 rounded-2xl rounded-tl-none flex gap-1.5 items-center shadow-lg border border-white/5">
+                    <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce"></div>
+                    <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:0.2s]"></div>
+                    <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:0.4s]"></div>
                   </div>
                 </div>
               )}
             </div>
 
-            {/* Quick reply suggestions */}
-            <div className="px-4 pb-2 flex gap-2 overflow-x-auto no-scrollbar">
+            {/* Quick Suggestions */}
+            <div className="px-6 pb-4 flex gap-2 overflow-x-auto no-scrollbar">
               {[
                 "Why this drug?",
-                "Dosing guidance",
-                "Treatment alternatives",
-                "Safety profile"
+                "Dosage protocol",
+                "Risks index"
               ].map(q => (
                 <button 
                   key={q} 
                   onClick={() => handleChatSubmit(null, q)}
-                  className="whitespace-nowrap px-3 py-1.5 rounded-full border border-slate-200 text-[10px] font-bold text-slate-500 hover:bg-slate-50 transition-colors"
+                  className="whitespace-nowrap px-4 py-2 rounded-full bg-white/5 border border-white/10 text-[10px] font-black text-slate-400 hover:text-white hover:bg-white/10 transition-all uppercase tracking-widest"
                 >
                   {q}
                 </button>
               ))}
             </div>
 
-            <form onSubmit={handleChatSubmit} className="p-5 border-t border-white/20 bg-white/40 flex gap-2">
+            <form onSubmit={handleChatSubmit} className="p-6 bg-black/20 border-t border-white/5 flex gap-3">
               <input 
-                placeholder="Ask clinical question..." 
-                className="flex-1 bg-white/80 border-none rounded-xl px-4 py-3 text-[11px] font-bold focus:ring-1 focus:ring-primary/20 outline-none transition-all placeholder:text-slate-400"
+                placeholder="Query clinical engine..." 
+                className="flex-1 bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-xs font-bold text-white focus:ring-1 focus:ring-white/20 outline-none transition-all placeholder:text-slate-600"
                 value={chatInput}
-                onChange={(e) => setChatInput(e.target.value)}
+                onChange={(e) => setValue(e.target.value)}
               />
-              <button className="w-10 h-10 rounded-full role-btn text-white flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-md">
+              <button className="w-12 h-12 rounded-2xl role-btn text-white flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-xl glow-role">
                 <span className="material-symbols-outlined text-sm">send</span>
               </button>
             </form>
