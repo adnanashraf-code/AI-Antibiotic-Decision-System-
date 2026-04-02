@@ -1,0 +1,33 @@
+
+> ai-antibiotic-decision-system@0.0.0 build
+> vite build
+
+[36mvite v4.5.14 [32mbuilding for production...[36m[39m
+transforming...
+[32mΓ£ô[39m 17 modules transformed.
+[32mΓ£ô built in 4.04s[39m
+[vite:esbuild] Transform failed with 1 error:
+C:/Users/Adnan/Desktop/hackathon project/frontend/src/features/prediction/PredictionPage.jsx:457:18: ERROR: Expected ")" but found "{"
+file: C:/Users/Adnan/Desktop/hackathon project/frontend/src/features/prediction/PredictionPage.jsx:457:18
+
+Expected ")" but found "{"
+455|                    </div>
+456|  
+457|                    {/* Why Not This Drug? (Killer Feature #1) */}
+   |                    ^
+458|                    <div className="bg-surface-container-lowest p-8 rounded-xl shadow-sm border border-slate-50 mt-8">
+459|                      <h4 className="text-xl font-headline font-bold mb-4 flex items-center gap-2">
+
+error during build:
+Error: Transform failed with 1 error:
+C:/Users/Adnan/Desktop/hackathon project/frontend/src/features/prediction/PredictionPage.jsx:457:18: ERROR: Expected ")" but found "{"
+    at failureErrorWithLog (C:\Users\Adnan\Desktop\hackathon project\frontend\node_modules\esbuild\lib\main.js:1649:15)
+    at C:\Users\Adnan\Desktop\hackathon project\frontend\node_modules\esbuild\lib\main.js:847:29
+    at responseCallbacks.<computed> (C:\Users\Adnan\Desktop\hackathon project\frontend\node_modules\esbuild\lib\main.js:703:9)
+    at handleIncomingPacket (C:\Users\Adnan\Desktop\hackathon project\frontend\node_modules\esbuild\lib\main.js:762:9)
+    at Socket.readFromStdout (C:\Users\Adnan\Desktop\hackathon project\frontend\node_modules\esbuild\lib\main.js:679:7)
+    at Socket.emit (node:events:508:20)
+    at addChunk (node:internal/streams/readable:564:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:515:3)
+    at Readable.push (node:internal/streams/readable:395:5)
+    at Pipe.onStreamRead (node:internal/stream_base_commons:189:23)
