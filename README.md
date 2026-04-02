@@ -11,6 +11,14 @@ Unlike black-box AI, AADS integrates **Explainable AI (XAI)** using SHAP values,
 
 ---
 
+## 📝 Short Summary of Prototype (For Submission Forms)
+> **AADS** is an AI-powered clinical decision support prototype that predicts antibiotic resistance using machine learning (Random Forest). It features a high-fidelity skeuomorphic interface, role-based access control (RBAC), and SHAP-driven explainability to help clinicians make data-driven decisions at the point of care.
+
+## 🔄 Technical Workflow Summary
+> Patient isolate data is sent to a FastAPI backend where an AI model analyzes molecular markers. The results, including resistance probabilities and feature importance (XAI), are visualized on a tactical dashboard, ensuring transparent and actionable medical insights with an automated HIPAA-aligned audit trail.
+
+---
+
 ## 🛠️ Tech Stack & Tools
 
 ### **Frontend**
