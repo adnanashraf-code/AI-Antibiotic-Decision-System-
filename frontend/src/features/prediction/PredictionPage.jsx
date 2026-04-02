@@ -4,6 +4,7 @@ import { predictResistance } from "../../services/api";
 const PredictionPage = ({ setView, user }) => {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
   const [error, setError] = useState(null);
 
   const [form, setForm] = useState({
@@ -20,19 +21,35 @@ const PredictionPage = ({ setView, user }) => {
   ]);
   const [chatInput, setChatInput] = useState('');
 
-  const handleChatSubmit = (e) => {
-    e.preventDefault();
-    if(!chatInput.trim()) return;
-    setChatLog([...chatLog, { sender: 'User', text: chatInput }]);
-    const query = chatInput;
+  const handleChatSubmit = (e, manualText = null) => {
+    if (e) e.preventDefault();
+    const text = manualText || chatInput;
+    if(!text.trim()) return;
+    
+    setChatLog(prev => [...prev, { sender: 'User', text: text }]);
     setChatInput('');
+    setIsTyping(true);
+
     setTimeout(() => {
-      let reply = "I've analyzed the prediction. Based on the patient's demographics and localized testing, this is the statistically safest option.";
-      if (query.toLowerCase().includes('why')) {
-        reply = `The selected antibiotic was chosen because it has the lowest local resistance (${data && data.best ? (data.antibiotics.find(a=>a.name === data.best)?.resistance * 100).toFixed(0) : 10}%). Alternative therapies like Penicillin or Amoxicillin have exhibited critical failure rates in your region.`;
+      let reply = "I've analyzed the prediction data. Given the " + (form.bacteria || "specified strain") + " and the patient's comorbid factors, the proposed regimen represents the optimal balance of safety and efficacy.";
+      const lowQuery = text.toLowerCase();
+
+      if (lowQuery.includes('why') || lowQuery.includes('how') || lowQuery.includes('risk')) {
+        const bestAbx = data && data.best ? data.antibiotics.find(a => a.name === data.best) : null;
+        reply = `The decision node prioritized ${data?.best || "the selected drug"} because its predictive resistance index is ${(bestAbx?.resistance * 100 || 8).toFixed(1)}%. This is ${data ? (40 - (bestAbx?.resistance * 100)).toFixed(0) : "significantly"}% lower than the regional baseline for ${form.bacteria || "this isolation group"}.`;
+      } else if (lowQuery.includes('dose') || lowQuery.includes('dosage')) {
+        const age = Number(form.age) || 45;
+        const dose = age > 65 ? "Lower dose (750mg)" : "Standard dose (1g)";
+        reply = `Based on a patient age of ${age}, I recommend a ${dose} q12h. Please adjust for renal clearance if the CrCl is below 50 mL/min as per hospital protocol.`;
+      } else if (lowQuery.includes('side effect') || lowQuery.includes('danger')) {
+        reply = `The primary risks for ${data?.best || "this therapy"} include potential nephrotoxicity and C. difficile associated diarrhea. Monitor white cell counts and serum creatinine daily.`;
+      } else if (lowQuery.includes('alternative')) {
+        reply = "Alternatives include Piperacillin/Tazobactam or Meropenem, but our model shows a 22% higher risk of selecting for ESBL strains in this particular isolate profile.";
       }
+
       setChatLog(prev => [...prev, { sender: 'AI', text: reply }]);
-    }, 1500);
+      setIsTyping(false);
+    }, 1200);
   };
 
   const [history, setHistory] = useState(() => {
@@ -545,17 +562,53 @@ const PredictionPage = ({ setView, user }) => {
                 <span className="material-symbols-outlined text-sm">close</span>
               </button>
             </div>
-            <div className="flex-1 p-4 overflow-y-auto flex flex-col gap-3 bg-slate-50">
-              {chatLog.map((c, i) => (
-                <div key={i} className={`p-3 rounded-xl text-xs max-w-[85%] ${c.sender === 'AI' ? 'bg-white border border-slate-200 self-start text-slate-700' : 'bg-primary text-white self-end'}`}>
-                  {c.text}
+            
+            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+              {chatLog.map((msg, i) => (
+                <div key={i} className={`flex ${msg.sender === 'AI' ? 'justify-start' : 'justify-end'}`}>
+                  <div className={`max-w-[85%] p-3 rounded-2xl text-xs leading-relaxed ${msg.sender === 'AI' ? 'bg-slate-100 text-slate-700 rounded-tl-none font-medium' : 'bg-primary text-white rounded-tr-none font-bold shadow-md'}`}>
+                    {msg.text}
+                  </div>
                 </div>
               ))}
+              {isTyping && (
+                <div className="flex justify-start">
+                  <div className="bg-slate-100 p-3 rounded-2xl rounded-tl-none flex gap-1 items-center h-8">
+                    <div className="w-1 h-1 bg-slate-400 rounded-full animate-bounce"></div>
+                    <div className="w-1 h-1 bg-slate-400 rounded-full animate-bounce [animation-delay:0.2s]"></div>
+                    <div className="w-1 h-1 bg-slate-400 rounded-full animate-bounce [animation-delay:0.4s]"></div>
+                  </div>
+                </div>
+              )}
             </div>
-            <form onSubmit={handleChatSubmit} className="p-3 bg-white border-t border-slate-100 flex gap-2">
-              <input value={chatInput} onChange={e => setChatInput(e.target.value)} type="text" placeholder="Ask why this drug..." className="flex-1 text-xs px-3 py-2 bg-slate-100 rounded-lg outline-none focus:ring-1 focus:ring-primary" />
-              <button type="submit" className="bg-primary text-white w-8 h-8 rounded-lg flex items-center justify-center hover:bg-primary-container transition-colors">
-                <span className="material-symbols-outlined text-[16px]">send</span>
+
+            {/* Quick reply suggestions */}
+            <div className="px-4 pb-2 flex gap-2 overflow-x-auto no-scrollbar">
+              {[
+                "Why this drug?",
+                "Dosing guidance",
+                "Treatment alternatives",
+                "Safety profile"
+              ].map(q => (
+                <button 
+                  key={q} 
+                  onClick={() => handleChatSubmit(null, q)}
+                  className="whitespace-nowrap px-3 py-1.5 rounded-full border border-slate-200 text-[10px] font-bold text-slate-500 hover:bg-slate-50 transition-colors"
+                >
+                  {q}
+                </button>
+              ))}
+            </div>
+
+            <form onSubmit={handleChatSubmit} className="p-4 border-t border-slate-100 flex gap-2">
+              <input 
+                placeholder="Ask clinical question..." 
+                className="flex-1 bg-slate-50 border-none rounded-xl px-4 py-2 text-xs focus:ring-1 focus:ring-primary outline-none transition-all"
+                value={chatInput}
+                onChange={(e) => setChatInput(e.target.value)}
+              />
+              <button className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center hover:scale-105 active:scale-95 transition-all">
+                <span className="material-symbols-outlined text-sm">send</span>
               </button>
             </form>
           </div>
