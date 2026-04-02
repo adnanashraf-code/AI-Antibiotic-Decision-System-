@@ -197,7 +197,7 @@ const PredictionPage = ({ setView, user }) => {
         {/* Dashboard Content */}
         <div className="p-8 lg:p-12 space-y-12">
           {/* Main Input Section */}
-          <section className="skeuo-card-glass p-10 max-w-4xl mx-auto backdrop-blur-3xl">
+          <section className="skeuo-card p-10 max-w-4xl mx-auto">
             <div className="flex items-center gap-6 mb-10">
               <div className={`w-14 h-14 rounded-2xl skeuo-inner flex items-center justify-center role-text`}>
                 <span className="material-symbols-outlined text-3xl" style={{fontVariationSettings: "'FILL' 1"}}>microbiology</span>
@@ -545,31 +545,36 @@ const PredictionPage = ({ setView, user }) => {
       {/* Floating AI Prompt & Connect Chatbot (Killer Feature #2) */}
       <div className="fixed bottom-8 right-8 z-50 flex flex-col items-end gap-4">
         {isChatOpen && (
-          <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 w-80 h-96 flex flex-col overflow-hidden animate-fade-in-up">
-            <div className="bg-primary text-white p-4 flex justify-between items-center">
-              <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-sm">smart_toy</span>
-                <span className="font-bold text-sm">AADS Assistant</span>
+          <div className="bg-white/60 backdrop-blur-2xl rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-white/50 w-80 lg:w-96 h-[500px] flex flex-col overflow-hidden animate-fade-in-up">
+            <div className={`p-5 flex justify-between items-center role-bg-light/80 border-b border-white/40`}>
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full role-btn flex items-center justify-center text-white">
+                  <span className="material-symbols-outlined text-[16px]">smart_toy</span>
+                </div>
+                <div>
+                  <span className="font-bold text-xs role-text uppercase tracking-widest">AADS Clinical Bot</span>
+                  <p className="text-[8px] font-black text-slate-400 uppercase tracking-tighter">Neural Isolate Analysis</p>
+                </div>
               </div>
-              <button onClick={() => setIsChatOpen(false)} className="hover:opacity-80">
+              <button onClick={() => setIsChatOpen(false)} className="hover:opacity-80 p-1 skeuo-btn w-8 h-8 flex items-center justify-center text-slate-400">
                 <span className="material-symbols-outlined text-sm">close</span>
               </button>
             </div>
             
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            <div className="flex-1 overflow-y-auto p-5 space-y-4 no-scrollbar">
               {chatLog.map((msg, i) => (
                 <div key={i} className={`flex ${msg.sender === 'AI' ? 'justify-start' : 'justify-end'}`}>
-                  <div className={`max-w-[85%] p-3 rounded-2xl text-xs leading-relaxed ${msg.sender === 'AI' ? 'bg-slate-100 text-slate-700 rounded-tl-none font-medium' : 'bg-primary text-white rounded-tr-none font-bold shadow-md'}`}>
+                  <div className={`max-w-[85%] p-4 rounded-2xl text-[11px] leading-relaxed ${msg.sender === 'AI' ? 'bg-white/80 text-slate-700 rounded-tl-none font-medium shadow-sm border border-white/20' : 'role-btn text-white rounded-tr-none font-bold shadow-lg'}`}>
                     {msg.text}
                   </div>
                 </div>
               ))}
               {isTyping && (
                 <div className="flex justify-start">
-                  <div className="bg-slate-100 p-3 rounded-2xl rounded-tl-none flex gap-1 items-center h-8">
-                    <div className="w-1 h-1 bg-slate-400 rounded-full animate-bounce"></div>
-                    <div className="w-1 h-1 bg-slate-400 rounded-full animate-bounce [animation-delay:0.2s]"></div>
-                    <div className="w-1 h-1 bg-slate-400 rounded-full animate-bounce [animation-delay:0.4s]"></div>
+                  <div className="bg-white/80 p-3 rounded-2xl rounded-tl-none flex gap-1 items-center h-8 shadow-sm">
+                    <div className={`w-1 h-1 role-bg-light/60 rounded-full animate-bounce`}></div>
+                    <div className={`w-1 h-1 role-bg-light/60 rounded-full animate-bounce [animation-delay:0.2s]`}></div>
+                    <div className={`w-1 h-1 role-bg-light/60 rounded-full animate-bounce [animation-delay:0.4s]`}></div>
                   </div>
                 </div>
               )}
@@ -593,14 +598,14 @@ const PredictionPage = ({ setView, user }) => {
               ))}
             </div>
 
-            <form onSubmit={handleChatSubmit} className="p-4 border-t border-slate-100 flex gap-2">
+            <form onSubmit={handleChatSubmit} className="p-5 border-t border-white/20 bg-white/40 flex gap-2">
               <input 
                 placeholder="Ask clinical question..." 
-                className="flex-1 bg-slate-50 border-none rounded-xl px-4 py-2 text-xs focus:ring-1 focus:ring-primary outline-none transition-all"
+                className="flex-1 bg-white/80 border-none rounded-xl px-4 py-3 text-[11px] font-bold focus:ring-1 focus:ring-primary/20 outline-none transition-all placeholder:text-slate-400"
                 value={chatInput}
                 onChange={(e) => setChatInput(e.target.value)}
               />
-              <button className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center hover:scale-105 active:scale-95 transition-all">
+              <button className="w-10 h-10 rounded-full role-btn text-white flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-md">
                 <span className="material-symbols-outlined text-sm">send</span>
               </button>
             </form>
