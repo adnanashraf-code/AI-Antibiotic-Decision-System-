@@ -107,6 +107,81 @@
   .role-bg-light { background-color: var(--role-surface); }
   .role-text { color: var(--role-primary); }
   .role-btn { background-color: var(--role-primary); }
+
+  /* Claymorphism Utilities */
+  .clay-card {
+    background: #f7f9fb;
+    border-radius: 48px;
+    box-shadow: 
+      20px 20px 40px -10px rgba(163, 177, 198, 0.5), 
+      -20px -20px 40px 0px rgba(255, 255, 255, 0.8),
+      inset -10px -10px 20px 0px rgba(163, 177, 198, 0.3),
+      inset 10px 10px 20px 0px rgba(255, 255, 255, 0.5);
+    border: 2px solid #ffffff;
+  }
+
+  .clay-inner {
+    background: #f7f9fb;
+    border-radius: 24px;
+    box-shadow: 
+      inset 6px 6px 12px rgba(163, 177, 198, 0.4), 
+      inset -6px -6px 12px rgba(255, 255, 255, 0.7);
+  }
+
+  .clay-btn {
+    background: #f7f9fb;
+    border-radius: 16px;
+    box-shadow: 
+      8px 8px 16px rgba(163, 177, 198, 0.4), 
+      -8px -8px 16px rgba(255, 255, 255, 0.7),
+      inset -4px -4px 8px rgba(163, 177, 198, 0.2),
+      inset 4px 4px 8px rgba(255, 255, 255, 0.4);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+  }
+
+  .clay-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+      12px 12px 20px rgba(163, 177, 198, 0.5), 
+      -12px -12px 20px rgba(255, 255, 255, 0.8);
+  }
+
+  .clay-btn:active {
+    transform: scale(0.98);
+    box-shadow: 
+      inset 4px 4px 8px rgba(163, 177, 198, 0.4), 
+      inset -4px -4px 8px rgba(255, 255, 255, 0.3);
+  }
+
+  .clay-btn-primary {
+    background: #3b82f6;
+    color: white;
+    box-shadow: 
+      10px 10px 20px rgba(59, 130, 246, 0.3), 
+      -10px -10px 20px rgba(255, 255, 255, 0.1),
+      inset -8px -8px 16px rgba(0, 0, 0, 0.1),
+      inset 8px 8px 16px rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .clay-input {
+    background: #f0f4f8;
+    border-radius: 20px;
+    box-shadow: 
+      inset 8px 8px 16px rgba(163, 177, 198, 0.4), 
+      inset -8px -8px 16px rgba(255, 255, 255, 0.6);
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+  }
+
+  .clay-input:focus {
+    background: #f7f9fb;
+    border-color: #3b82f6;
+    box-shadow: 
+      inset 10px 10px 20px rgba(163, 177, 198, 0.5), 
+      inset -10px -10px 20px rgba(255, 255, 255, 0.8);
+  }
 }
 
 @layer utilities {

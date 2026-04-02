@@ -68,96 +68,99 @@ const LoginForm = ({ onLogin }) => {
 
 
   return (
-    <div className="min-h-screen bg-[#f7f9fb] flex items-center justify-center p-4">
-      <div className="clay-card p-10 w-full max-w-md relative overflow-hidden">
-        
-        {/* Soft Background Accents */}
-        <div className="absolute top-[-50px] left-[-50px] w-32 h-32 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
-        <div className="absolute bottom-[-50px] right-[-50px] w-32 h-32 bg-tertiary rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+    <div className="min-h-screen bg-[#f0f4f8] flex items-center justify-center p-6 relative overflow-hidden">
+      {/* Background Blobs for Atmosphere */}
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
+      <div className="absolute bottom-1/4 right-1/4 w-[30rem] h-[30rem] bg-indigo-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse delay-700"></div>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40rem] h-[40rem] bg-slate-100 rounded-full mix-blend-multiply filter blur-3xl opacity-50"></div>
 
+      <div className="clay-card p-12 w-full max-w-lg relative z-10 transition-all duration-500 hover:scale-[1.01]">
         <div className="relative z-10">
-          <div className="text-center mb-10 scale-90">
-            <img src="/logo.png" alt="AADS Logo" className="h-16 mx-auto mb-4 drop-shadow-xl"/>
-            <h1 className="font-headline text-3xl font-extrabold text-blue-800 tracking-tighter mb-2">AADS</h1>
-            <h2 className="text-xl font-bold text-slate-800 mb-1">
-              {isLogin ? "Welcome Back" : "Create Account"}
+          <div className="text-center mb-12">
+            <div className="w-24 h-24 clay-btn-secondary mx-auto mb-6 flex items-center justify-center rounded-[32px] shadow-lg">
+              <img src="/logo.png" alt="AADS Logo" className="h-14 w-auto drop-shadow-md"/>
+            </div>
+            <h1 className="font-headline text-4xl font-black text-blue-900 tracking-tighter mb-3 uppercase">AADS</h1>
+            <div className="h-1 w-12 bg-blue-500 rounded-full mx-auto mb-6"></div>
+            <h2 className="text-2xl font-black text-slate-800 mb-2">
+              {isLogin ? "Welcome Back" : "Clinical Registry"}
             </h2>
-            <p className="text-sm text-slate-500">
-              {isLogin ? "Log in to access your clinical dashboard" : "Sign up for clinical decision support"}
+            <p className="text-sm font-bold text-slate-500 max-w-sm mx-auto">
+              {isLogin ? "Secure access to AI-driven antibiotic protocols." : "Join the global network for antimicrobial stewardship."}
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-8">
             {!isLogin && (
-              <div>
-                <label className="block text-xs font-bold text-slate-600 mb-2 uppercase tracking-wide">Full Name</label>
+              <div className="space-y-3">
+                <label className="block text-[10px] font-black text-slate-400 mb-1 ml-4 uppercase tracking-[0.2em]">Full Name</label>
                 <input 
                   type="text" 
                   name="fullName" 
                   value={formData.fullName} 
                   onChange={handleChange} 
                   required={!isLogin}
-                  className="clay-input w-full p-4 text-sm text-slate-700"
-                  placeholder="Dr. John Doe"
+                  className="clay-input w-full p-5 text-sm font-bold text-slate-700 outline-none"
+                  placeholder="e.g. Dr. Sarah Jenkins"
                 />
               </div>
             )}
 
-            <div>
-              <label className="block text-xs font-bold text-slate-600 mb-2 uppercase tracking-wide">Email</label>
+            <div className="space-y-3">
+              <label className="block text-[10px] font-black text-slate-400 mb-1 ml-4 uppercase tracking-[0.2em]">Email Address</label>
               <input 
                 type="email" 
                 name="email" 
                 value={formData.email} 
                 onChange={handleChange} 
                 required
-                className="clay-input w-full p-4 text-sm text-slate-700"
+                className="clay-input w-full p-5 text-sm font-bold text-slate-700 outline-none"
                 placeholder="doctor@hospital.org"
               />
             </div>
 
-            <div>
-              <label className="block text-xs font-bold text-slate-600 mb-2 uppercase tracking-wide">Password</label>
+            <div className="space-y-3">
+              <label className="block text-[10px] font-black text-slate-400 mb-1 ml-4 uppercase tracking-[0.2em]">Secret Key</label>
               <input 
                 type="password" 
                 name="password" 
                 value={formData.password} 
                 onChange={handleChange} 
                 required
-                className="clay-input w-full p-4 text-sm text-slate-700"
+                className="clay-input w-full p-5 text-sm font-bold text-slate-700 outline-none"
                 placeholder="••••••••"
               />
             </div>
 
             {!isLogin && (
               <>
-                <div>
-                  <label className="block text-xs font-bold text-slate-600 mb-2 uppercase tracking-wide">Confirm Password</label>
+                <div className="space-y-3">
+                  <label className="block text-[10px] font-black text-slate-400 mb-1 ml-4 uppercase tracking-[0.2em]">Verify Secret Key</label>
                   <input 
                     type="password" 
                     name="confirmPassword" 
                     value={formData.confirmPassword} 
                     onChange={handleChange} 
                     required={!isLogin}
-                    className="clay-input w-full p-4 text-sm text-slate-700"
+                    className="clay-input w-full p-5 text-sm font-bold text-slate-700 outline-none"
                     placeholder="••••••••"
                   />
                 </div>
                 
-                <div>
-                  <label className="block text-xs font-bold text-slate-600 mb-2 uppercase tracking-wide">Role</label>
-                  <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-4">
+                  <label className="block text-[10px] font-black text-slate-400 mb-1 ml-4 uppercase tracking-[0.2em]">Designated Role</label>
+                  <div className="grid grid-cols-2 gap-4">
                     {["Doctor", "Researcher", "Admin", "Patient"].map((r) => (
-                      <label key={r} className="flex items-center gap-2 text-sm text-slate-700 cursor-pointer p-2 bg-slate-50/50 rounded-lg hover:bg-slate-100 transition-colors">
+                      <label key={r} className={`flex items-center justify-center gap-3 p-4 rounded-2xl transition-all cursor-pointer ${formData.role === r ? 'clay-inner text-blue-700' : 'bg-slate-50/50 text-slate-400 hover:bg-slate-100'}`}>
                         <input 
                           type="radio" 
                           name="role" 
                           value={r} 
                           checked={formData.role === r} 
                           onChange={handleChange} 
-                          className="accent-primary"
+                          className="hidden"
                         />
-                        <span>{r}</span>
+                        <span className="text-[10px] font-black uppercase tracking-widest">{r}</span>
                       </label>
                     ))}
                   </div>
@@ -165,28 +168,29 @@ const LoginForm = ({ onLogin }) => {
               </>
             )}
 
-            <button type="submit" className="clay-btn-primary w-full py-4 font-bold text-sm uppercase tracking-widest mt-2">
-              {isLogin ? "Sign In" : "Register"}
-            </button>
+            <div className="pt-4">
+              <button type="submit" className="clay-btn clay-btn-primary w-full py-5 font-black text-sm uppercase tracking-[0.2em] transition-all hover:translate-y-[-2px] active:scale-95 shadow-xl">
+                {isLogin ? "Neural Auth" : "Finalize Protocol"}
+              </button>
+            </div>
           </form>
 
-
-
-          <div className="mt-10 text-center">
-            <p className="text-sm text-slate-500">
-              {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
+          <div className="mt-12 text-center">
+            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+              {isLogin ? "Unauthorized access?" : "Existing member?"}{" "}
               <button 
                 type="button" 
                 onClick={() => setIsLogin(!isLogin)} 
-                className="text-primary font-bold hover:underline"
+                className="text-blue-600 font-black hover:text-blue-800 transition-colors ml-2 underline decoration-2 underline-offset-4"
               >
-                {isLogin ? "Sign up" : "Log in"}
+                {isLogin ? "Initialize Registry" : "Return to Login"}
               </button>
             </p>
           </div>
 
-          <div className="mt-6 text-center">
-            <p className="text-[10px] text-slate-400 uppercase tracking-widest">HIPAA Compliant Protocol</p>
+          <div className="mt-10 flex items-center justify-center gap-4 py-4 border-t border-slate-100">
+            <span className="material-symbols-outlined text-slate-300 text-sm">verified</span>
+            <p className="text-[9px] font-black text-slate-300 uppercase tracking-[0.3em]">HIPAA Shield v4.2 Active</p>
           </div>
         </div>
       </div>
