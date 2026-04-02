@@ -299,6 +299,28 @@ const PredictionPage = ({ setView, user }) => {
 
             {/* Right Column: Results */}
             <div className="col-span-12 lg:col-span-8 space-y-8 pb-10">
+              {/* Prototype Discovery Node (Hackathon visibility) */}
+              <div className="skeuo-card p-6 border-l-4 border-blue-600 bg-white/50 backdrop-blur-sm animate-fade-in-up">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="material-symbols-outlined text-blue-600 text-lg">description</span>
+                  <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Prototype Discovery Node</h4>
+                </div>
+                <h3 className="text-sm font-black text-slate-800 uppercase tracking-tight mb-2">Short Summary Of Prototype</h3>
+                <p className="text-[11px] font-bold text-slate-500 leading-relaxed">
+                  AADS is an AI-powered clinical decision support prototype that predicts antibiotic resistance using machine learning (Random Forest). It features a high-fidelity skeuomorphic interface, role-based access control (RBAC), and SHAP-driven explainability to help clinicians make data-driven decisions at the point of care.
+                </p>
+                <div className="mt-4 pt-4 border-t border-slate-100 flex gap-4">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                    <span className="text-[9px] font-black uppercase text-slate-400">AI Inference Active</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="material-symbols-outlined text-blue-500 text-[10px]">verified_user</span>
+                    <span className="text-[9px] font-black uppercase text-slate-400">HIPAA Compliant Protocol</span>
+                  </div>
+                </div>
+              </div>
+
               {data ? (
                 <>
                 <div className="animate-fade-in-up">

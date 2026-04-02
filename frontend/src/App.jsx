@@ -88,7 +88,10 @@ function App() {
             if (!user) setView('landing');
             else if (user.role === 'Patient') setView('patient-portal');
             else setView('prediction');
-          }} className="text-3xl font-black text-blue-800 tracking-tighter font-headline cursor-pointer hover:opacity-80 transition-opacity uppercase">AADS</button>
+          }} className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity">
+            <img src="/logo.png" alt="AADS Logo" className="h-10 w-auto"/>
+            <span className="text-3xl font-black text-blue-800 tracking-tighter font-headline uppercase">AADS</span>
+          </button>
           
           <div className="hidden lg:flex gap-4">
             <button onClick={() => setView('guidelines')} className="skeuo-btn px-6 py-3 text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-blue-700">Guidelines</button>
@@ -291,7 +294,10 @@ function App() {
       <footer className="bg-[#e0e5ec] border-t border-white/40 py-24 px-10">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-16 items-center">
           <div className="text-center md:text-left">
-            <h4 className="text-4xl font-black text-blue-800 uppercase tracking-tighter mb-4">AADS Hub</h4>
+            <div className="flex items-center gap-4 mb-4">
+              <img src="/logo.png" alt="AADS Logo" className="h-12 w-auto brightness-90 grayscale-0"/>
+              <h4 className="text-4xl font-black text-blue-800 uppercase tracking-tighter">AADS Hub</h4>
+            </div>
             <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] max-w-xs leading-loose">
               © 2024 Clinical Suite AI. Advanced decision support for authorized medical professionals. AES-256 Shield Active.
             </p>

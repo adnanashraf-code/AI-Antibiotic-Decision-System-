@@ -84,7 +84,8 @@ const LoginForm = ({ onLogin }) => {
         <div className="absolute bottom-[-50px] right-[-50px] w-32 h-32 bg-tertiary rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
 
         <div className="relative z-10">
-          <div className="text-center mb-10">
+          <div className="text-center mb-10 scale-90">
+            <img src="/logo.png" alt="AADS Logo" className="h-16 mx-auto mb-4 drop-shadow-xl"/>
             <h1 className="font-headline text-3xl font-extrabold text-blue-800 tracking-tighter mb-2">AADS</h1>
             <h2 className="text-xl font-bold text-slate-800 mb-1">
               {isLogin ? "Welcome Back" : "Create Account"}
