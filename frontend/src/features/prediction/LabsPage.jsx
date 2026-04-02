@@ -1,10 +1,18 @@
-import { useState } from "react";
-
 const LabsPage = ({ setView, user }) => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   return (
-    <div className="skeuo-bg font-body text-slate-700 min-h-screen flex antialiased">
+    <div className="skeuo-bg font-body text-slate-700 min-h-screen flex antialiased overflow-x-hidden">
+      {/* Sidebar Overlay */}
+      {isMobileMenuOpen && (
+        <div 
+          className="md:hidden fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[60]"
+          onClick={() => setIsMobileMenuOpen(false)}
+        ></div>
+      )}
+
       {/* Side Navigation Shell */}
-      <aside className="hidden md:flex flex-col p-4 gap-2 h-screen w-64 fixed left-0 top-0 border-r border-white/40 bg-[#e0e5ec] z-50 shadow-[4px_0_15px_rgba(163,177,198,0.2)]">
+      <aside className={`flex flex-col p-4 gap-2 h-screen w-64 fixed left-0 top-0 border-r border-white/40 bg-[#e0e5ec] z-[70] shadow-[4px_0_15px_rgba(163,177,198,0.2)] transition-transform duration-300 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
         <div className="flex items-center gap-3 px-2 py-6 mb-6">
           <div className="w-12 h-12 rounded-2xl skeuo-inner flex items-center justify-center text-blue-600">
             <span className="material-symbols-outlined text-2xl" data-weight="fill" style={{fontVariationSettings: "'FILL' 1"}}>biotech</span>
@@ -69,35 +77,31 @@ const LabsPage = ({ setView, user }) => {
       </aside>
 
       {/* Main Content Canvas */}
-      <main className="flex-1 md:ml-64 min-h-screen flex flex-col">
+      <main className="flex-1 md:ml-64 min-h-screen flex flex-col w-full overflow-x-hidden">
         {/* Top App Bar */}
-        <header className="flex justify-between items-center w-full px-8 h-16 border-b border-white/40 bg-[#e0e5ec]/90 backdrop-blur-md sticky top-0 z-10 shadow-sm text-slate-800">
-          <div className="flex items-center gap-8">
-            <button onClick={() => setView('landing')} className="text-xl font-black text-blue-800 uppercase tracking-tighter cursor-pointer hover:opacity-80 transition-opacity text-left">AADS Clinical Lab</button>
-            <div className="hidden md:flex gap-8">
+        <header className="flex justify-between items-center w-full px-6 lg:px-8 h-16 border-b border-white/40 bg-[#e0e5ec]/90 backdrop-blur-md sticky top-0 z-40 shadow-sm text-slate-800">
+          <div className="flex items-center gap-4 lg:gap-8">
+            <button 
+              onClick={() => setIsMobileMenuOpen(true)}
+              className="md:hidden flex items-center justify-center w-10 h-10 skeuo-btn text-slate-600"
+            >
+              <span className="material-symbols-outlined">menu</span>
+            </button>
+            <button onClick={() => setView('landing')} className="text-lg lg:text-xl font-black text-blue-800 uppercase tracking-tighter cursor-pointer hover:opacity-80 transition-opacity text-left">AADS Lab</button>
+            <div className="hidden lg:flex gap-8">
               <button onClick={() => setView('guidelines')} className="text-slate-500 font-bold uppercase text-[10px] tracking-[0.2em] hover:text-blue-600 transition-colors">Guidelines</button>
-              <button onClick={() => setView('compliance')} className="text-slate-500 font-bold uppercase text-[10px] tracking-[0.2em] hover:text-blue-600 transition-colors">Audit</button>
               <button onClick={() => setView('support')} className="text-slate-500 font-bold uppercase text-[10px] tracking-[0.2em] hover:text-blue-600 transition-colors">Support</button>
             </div>
           </div>
-          <div className="flex items-center gap-6">
-            <button className="skeuo-btn w-10 h-10 p-2 text-slate-500 hover:bg-slate-100 transition-colors">
-              <span className="material-symbols-outlined text-xl">notifications</span>
-            </button>
-            <div className="flex items-center gap-4 pl-6 border-l border-white/50">
+          <div className="flex items-center gap-4 lg:gap-6">
+            <div className="flex items-center gap-3 lg:gap-4 pl-4 lg:pl-6 border-l border-white/50">
               {user ? (
-                <div className="flex items-center gap-4">
-                  <div className="text-right hidden sm:block">
-                    <p className="text-sm font-black text-slate-900 leading-none">{user.name}</p>
-                    <p className="text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-widest">Medical ID: #4432</p>
-                  </div>
-                  <button onClick={() => setView('settings')} className="skeuo-btn w-10 h-10 p-0.5 overflow-hidden">
-                    <img alt={user.name} className="w-full h-full rounded-xl object-cover" src={user.avatar || "https://lh3.googleusercontent.com/aida-public/AB6AXuAHy9AMFMuEZ5hlOPA_7voK6yHDCKAKnAtcotx2GPo50_dJYaiJ53VgDsfgGALAAjtGhAr9z8u-1npk7nlWk9O7xEXBmz20By4dDY7Lc8KbHjok51fpT6Xnmy1CKjSi-MzUDaqO2-DiNrQwfpSPmpBNPmU5WUCuh_3hy-0DuihGE_Fj1FHNUlTqk2FB4n2xhexG6LH_wL6melPdkKapR_idzZNA7WFIpUcGeLHfY0btvnQU-T7c5vXq624-RYa8eAnBnKqzWPOLuBgZ"}/>
-                  </button>
-                </div>
+                <button onClick={() => setView('settings')} className="skeuo-btn w-10 h-10 p-0.5 overflow-hidden">
+                  <img alt={user.name} className="w-full h-full rounded-xl object-cover" src={user.avatar || "/logo.png"}/>
+                </button>
               ) : (
-                <button onClick={() => setView('login')} className="skeuo-btn-primary px-8 py-3 text-xs font-black uppercase tracking-widest shadow-md transition-all active:scale-95">
-                  Access Portal
+                <button onClick={() => setView('login')} className="skeuo-btn-primary px-6 lg:px-8 py-2 md:py-3 text-[10px] lg:text-xs font-black uppercase tracking-widest shadow-md">
+                  Portal
                 </button>
               )}
             </div>
@@ -110,15 +114,15 @@ const LabsPage = ({ setView, user }) => {
           <section className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
             <div>
               <span className="skeuo-inner px-4 py-1.5 rounded-full text-blue-600 font-black text-[10px] uppercase tracking-[0.2em] mb-4 block inline-block">Neural Diagnosis Node</span>
-              <h2 className="text-4xl font-headline font-black text-slate-800 tracking-tight">Clinical Lab Reports</h2>
-              <p className="text-slate-500 font-bold mt-2 max-w-md">Real-time processing of bacterial isolates and MIC assessments.</p>
+              <h2 className="text-3xl lg:text-4xl font-headline font-black text-slate-800 tracking-tight">Clinical Lab Reports</h2>
+              <p className="text-sm lg:text-base text-slate-500 font-bold mt-2 max-w-md">Real-time processing of bacterial isolates and MIC assessments.</p>
             </div>
-            <div className="flex gap-4">
-              <div className="relative">
+            <div className="flex flex-wrap gap-4 w-full md:w-auto">
+              <div className="relative flex-1 md:flex-none">
                 <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">search</span>
-                <input className="skeuo-input pl-12 pr-6 py-3 w-64 text-sm font-bold" placeholder="Search node logs..." type="text"/>
+                <input className="skeuo-input pl-12 pr-6 py-3 w-full md:w-64 text-sm font-bold" placeholder="Node Logs..." type="text"/>
               </div>
-              <button className="skeuo-btn px-6 py-3 text-[10px] font-black uppercase tracking-widest text-slate-600">
+              <button className="skeuo-btn px-6 py-3 text-[10px] font-black uppercase tracking-widest text-slate-600 border border-white/40">
                 <span className="material-symbols-outlined text-lg">filter_list</span>
                 Filter
               </button>
@@ -324,12 +328,14 @@ const LabsPage = ({ setView, user }) => {
         </div>
 
         {/* Footer */}
-        <footer className="flex justify-between items-center px-8 py-6 w-full mt-auto bg-white dark:bg-slate-950 border-t border-slate-100 dark:border-slate-800 font-inter text-xs text-slate-500">
-          <p>© 2024 AI Antibiotic Decision System (AADS)</p>
-          <div className="flex gap-6">
-            <button onClick={() => setView('guidelines')} className="hover:text-slate-700 dark:hover:text-slate-200">Clinical Guidelines</button>
-            <button onClick={() => setView('compliance')} className="hover:text-slate-700 dark:hover:text-slate-200">HIPAA Compliance</button>
-            <button onClick={() => setView('support')} className="hover:text-slate-700 dark:hover:text-slate-200">Support Center</button>
+        <footer className="flex flex-col md:flex-row justify-between items-center px-6 md:px-8 py-10 w-full mt-auto border-t border-white/40 bg-[#e0e5ec] pb-32 md:pb-10">
+          <div className="font-inter text-xs text-slate-400 font-black uppercase tracking-widest mb-6 md:mb-0">
+            © 2024 AI Antibiotic Decision System (AADS)
+          </div>
+          <div className="flex flex-wrap justify-center gap-6">
+            {['Guidelines', 'Privacy', 'Support'].map(f => (
+              <button key={f} onClick={() => setView('support')} className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-blue-700 transition-colors">{f}</button>
+            ))}
           </div>
         </footer>
       </main>

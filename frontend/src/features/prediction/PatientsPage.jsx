@@ -1,10 +1,18 @@
-import { useState } from "react";
-
 const PatientsPage = ({ setView, user }) => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  
   return (
-    <div className="skeuo-bg font-body text-slate-700 min-h-screen flex antialiased">
+    <div className="skeuo-bg font-body text-slate-700 min-h-screen flex antialiased overflow-x-hidden">
+      {/* Sidebar Overlay */}
+      {isMobileMenuOpen && (
+        <div 
+          className="md:hidden fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[60]"
+          onClick={() => setIsMobileMenuOpen(false)}
+        ></div>
+      )}
+
       {/* SideNavBar */}
-      <aside className="hidden md:flex flex-col p-4 gap-2 h-screen w-64 fixed left-0 top-0 border-r border-white/40 bg-[#e0e5ec] z-50 shadow-[4px_0_15px_rgba(163,177,198,0.2)]">
+      <aside className={`flex flex-col p-4 gap-2 h-screen w-64 fixed left-0 top-0 border-r border-white/40 bg-[#e0e5ec] z-[70] shadow-[4px_0_15px_rgba(163,177,198,0.2)] transition-transform duration-300 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
         <div className="flex items-center gap-3 px-2 py-6 mb-6">
           <div className="w-12 h-12 rounded-2xl skeuo-inner flex items-center justify-center text-blue-600">
             <span className="material-symbols-outlined text-2xl" data-weight="fill" style={{fontVariationSettings: "'FILL' 1"}}>biotech</span>
@@ -69,46 +77,37 @@ const PatientsPage = ({ setView, user }) => {
       </aside>
 
       {/* Main Content Canvas */}
-      <main className="flex-1 md:ml-64 min-h-screen flex flex-col">
+      <main className="flex-1 md:ml-64 min-h-screen flex flex-col w-full overflow-x-hidden">
         {/* TopNavBar (Shared Component) */}
-        <header className="flex justify-between items-center w-full px-8 h-16 sticky top-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-sm dark:shadow-none z-40 border-b border-slate-100 dark:border-slate-800">
-          <div className="flex items-center gap-8">
-            <button onClick={() => setView('landing')} className="md:hidden font-extrabold text-blue-700 text-xl tracking-tighter cursor-pointer hover:opacity-80 transition-opacity">AADS</button>
+        <header className="flex justify-between items-center w-full px-6 lg:px-8 h-16 sticky top-0 bg-white/80 backdrop-blur-xl shadow-sm z-40 border-b border-slate-100">
+          <div className="flex items-center gap-4 lg:gap-8">
+            <button 
+              onClick={() => setIsMobileMenuOpen(true)}
+              className="md:hidden flex items-center justify-center w-10 h-10 skeuo-btn text-slate-600"
+            >
+              <span className="material-symbols-outlined">menu</span>
+            </button>
+            <button onClick={() => setView('landing')} className="font-extrabold text-blue-700 text-xl tracking-tighter cursor-pointer hover:opacity-80 transition-opacity">AADS</button>
             <nav className="hidden lg:flex items-center gap-6 font-manrope tracking-tight text-sm">
-              <button onClick={() => setView('guidelines')} className="text-slate-500 dark:text-slate-400 font-medium hover:text-blue-600 transition-colors">Guidelines</button>
-              <button onClick={() => setView('compliance')} className="text-slate-500 dark:text-slate-400 font-medium hover:text-blue-600 transition-colors">Compliance</button>
-              <button onClick={() => setView('support')} className="text-slate-500 dark:text-slate-400 font-medium hover:text-blue-600 transition-colors">Support</button>
+              <button onClick={() => setView('guidelines')} className="text-slate-500 font-medium hover:text-blue-600 transition-colors">Guidelines</button>
+              <button onClick={() => setView('compliance')} className="text-slate-500 font-medium hover:text-blue-600 transition-colors">Compliance</button>
+              <button onClick={() => setView('support')} className="text-slate-500 font-medium hover:text-blue-600 transition-colors">Support</button>
             </nav>
           </div>
           <div className="flex items-center gap-4">
-            <div className="relative group hidden sm:block">
+            <div className="hidden lg:block relative group">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-lg">search</span>
-              <input className="bg-surface-container-low border-none rounded-full py-2 pl-10 pr-4 text-sm w-64 focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all" placeholder="Search patients..." type="text"/>
+              <input className="bg-surface-container-low border-none rounded-full py-2 pl-10 pr-4 text-sm w-48 focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all" placeholder="Patient ID..." type="text"/>
             </div>
             <div className="flex items-center gap-2">
-              <button className="p-2 text-slate-500 hover:bg-slate-100 rounded-full transition-colors relative">
-                <span className="material-symbols-outlined">notifications</span>
-                <span className="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
-              </button>
-              <div className="flex items-center gap-4 pl-4 border-l border-slate-200">
+              <div className="flex items-center gap-3 pl-4 border-l border-slate-200">
                 {user ? (
-                  <div className="flex items-center gap-2">
-                    <button onClick={() => setView('settings')} className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity">
-                      <div className="w-8 h-8 rounded-full overflow-hidden border border-slate-200">
-                        <img alt={user.name} className="w-full h-full object-cover" src={user.avatar || "https://lh3.googleusercontent.com/aida-public/AB6AXuCkYPOv9wMYSCnkvLOYjVuNlScsdM5JPTeG2tMZ4c-9BCiNKnaf2QoUct98FqBql_zlTSTsIsJSZO1uwPCCUfpQJLv4MWZ5nOudAsD8XnuM_MgQLTxcp2L6AMq2nYMRPqmeOLJMPmAIG3R4Y7X3paBJA1FZ0sPTAy7hqMuiF60LvLNeWRJ-fXnGXocFTOHHvF1TbJS1oqRGBAd9cnARh0DVpqlf-njJPvo6R1cQ3E0Xcysuwk3lVKDumjF0HyEf5fN7Kb5jSrSY57tV"}/>
-                      </div>
-                    </button>
-                    <button 
-                      onClick={() => { localStorage.removeItem('aads_user'); window.location.reload(); }} 
-                      className="text-xs font-bold text-slate-400 hover:text-error transition-colors px-2 py-1 cursor-pointer"
-                      title="Logout"
-                    >
-                      <span className="material-symbols-outlined text-sm">logout</span>
-                    </button>
-                  </div>
+                  <button onClick={() => setView('settings')} className="skeuo-btn w-10 h-10 p-0.5 overflow-hidden">
+                    <img alt={user.name} className="w-full h-full rounded-xl object-cover" src={user.avatar || "/logo.png"}/>
+                  </button>
                 ) : (
-                  <button onClick={() => setView('login')} className="bg-primary hover:bg-primary-container text-white px-5 py-2 rounded-full text-sm font-bold shadow-md transition-all active:scale-95">
-                    Login / Sign up
+                  <button onClick={() => setView('login')} className="skeuo-btn-primary px-5 py-2 text-xs font-bold shadow-md">
+                    Login
                   </button>
                 )}
               </div>
@@ -172,48 +171,51 @@ const PatientsPage = ({ setView, user }) => {
 
           {/* Patient List (Precision Curator Layout) */}
           <div className="space-y-4">
-            {/* Table Headers */}
-            <div className="grid grid-cols-12 px-8 py-2 text-xs font-bold text-slate-400 uppercase tracking-widest">
-              <div className="col-span-4">Patient Information</div>
-              <div className="col-span-3">Treatment Protocol</div>
-              <div className="col-span-2">Last Analysis</div>
-              <div className="col-span-2 text-center">Risk Level</div>
-              <div className="col-span-1"></div>
-            </div>
+          {/* Table Headers (Hidden on Mobile) */}
+          <div className="hidden md:grid grid-cols-12 px-8 py-2 text-[10px] font-black text-slate-400 uppercase tracking-widest gap-4">
+            <div className="col-span-4">Patient Information</div>
+            <div className="col-span-3">Treatment Protocol</div>
+            <div className="col-span-2">Last Analysis</div>
+            <div className="col-span-2 text-center">Risk Level</div>
+            <div className="col-span-1"></div>
+          </div>
 
-            {/* Patient Card 1 */}
-            <div className="grid grid-cols-12 items-center px-8 py-5 bg-white rounded-xl hover:translate-x-1 transition-all duration-300 group ambient-shadow cursor-pointer" onClick={() => setView('patientDetail')}>
-              <div className="col-span-4 flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 font-bold overflow-hidden border-2 border-white">
-                  <img alt="Patient" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJBTaITHI0klN9L1yz_seyFCK_CnB1NqOKH2LWaNyrjcfsh-VkasQK2VG_TRrxZbpwAS-UHJg0CMox2EDg6z1eilndxcWeTybDC1lEQ7yY52DN5Qo4XSdWbCbYXvxuvmq2kmZbCh0IiXrJENa-aPdV9zPgvIB6FDJlpSoZmK-zh1bUcePbwhc3ftZpHq2J0lZ1JZo1zIKgtY3WK0sFme2UVBsHaVI0gEcQhWc4uzQioefNVUhYXPmg-dtZwTfB3gsr7Ius_ox6Fd4h"/>
-                </div>
-                <div>
-                  <p className="font-headline font-bold text-on-surface">Elena Rodriguez</p>
-                  <p className="text-xs text-on-surface-variant font-mono">ID: #8821-XP</p>
-                </div>
+          {/* Patient Card 1 */}
+          <div className="flex flex-col md:grid md:grid-cols-12 items-start md:items-center p-6 md:px-8 md:py-5 bg-white rounded-2xl hover:translate-x-1 transition-all duration-300 ambient-shadow gap-4 md:gap-0 cursor-pointer" onClick={() => setView('patientDetail')}>
+            <div className="col-span-4 flex items-center gap-4">
+              <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 font-bold overflow-hidden border-2 border-white ring-4 ring-slate-50">
+                <img alt="Patient" src="/logo.png"/>
               </div>
-              <div className="col-span-3">
-                <div className="inline-flex items-center gap-2 px-3 py-1 bg-surface-container rounded-full">
-                  <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
-                  <span className="text-sm font-medium text-on-surface-variant">Vancomycin</span>
-                </div>
-                <p className="text-[10px] text-slate-400 mt-1 ml-1">IV • 250mg • q12h</p>
-              </div>
-              <div className="col-span-2">
-                <p className="text-sm font-medium text-on-surface">14 Oct, 2024</p>
-                <p className="text-[10px] text-tertiary font-bold">08:45 AM</p>
-              </div>
-              <div className="col-span-2 flex justify-center">
-                <div className="px-4 py-1.5 bg-tertiary-container/10 text-tertiary-container rounded-full text-xs font-bold border border-tertiary-container/20">
-                  Low Risk
-                </div>
-              </div>
-              <div className="col-span-1 flex justify-end">
-                <button className="w-10 h-10 rounded-full flex items-center justify-center text-slate-300 hover:text-primary hover:bg-primary-fixed transition-colors">
-                  <span className="material-symbols-outlined">chevron_right</span>
-                </button>
+              <div>
+                <p className="font-headline font-black text-slate-800 leading-tight">Elena Rodriguez</p>
+                <p className="text-[10px] text-slate-400 font-bold tracking-widest mt-0.5">#8821-XP</p>
               </div>
             </div>
+            <div className="col-span-3 flex md:block items-center justify-between w-full">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 rounded-full">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                <span className="text-xs font-bold text-blue-700">Vancomycin</span>
+              </div>
+              <p className="text-[10px] text-slate-400 font-bold md:mt-1 ml-2 md:ml-1">IV • 250mg • q12h</p>
+            </div>
+            <div className="col-span-2 hidden md:block">
+              <p className="text-xs font-bold text-slate-800">14 Oct, 2024</p>
+              <p className="text-[9px] text-slate-400 font-black tracking-widest">08:45 AM</p>
+            </div>
+            <div className="col-span-2 flex items-center justify-between md:justify-center w-full">
+              <div className="px-4 py-1.5 bg-green-50 text-green-600 rounded-full text-[10px] font-black uppercase tracking-widest border border-green-100">
+                Low Risk
+              </div>
+              <button className="md:hidden skeuo-btn w-10 h-10 flex items-center justify-center text-primary">
+                <span className="material-symbols-outlined">chevron_right</span>
+              </button>
+            </div>
+            <div className="col-span-1 hidden md:flex justify-end">
+              <button className="w-10 h-10 skeuo-btn flex items-center justify-center text-slate-300 hover:text-primary transition-colors">
+                <span className="material-symbols-outlined">chevron_right</span>
+              </button>
+            </div>
+          </div>
 
             {/* Patient Card 2 (Critical State) */}
             <div className="grid grid-cols-12 items-center px-8 py-5 bg-white rounded-xl hover:translate-x-1 transition-all duration-300 group ambient-shadow cursor-pointer relative overflow-hidden" onClick={() => setView('patientDetail')}>
@@ -335,14 +337,14 @@ const PatientsPage = ({ setView, user }) => {
         </div>
 
         {/* Footer (Shared Component) */}
-        <footer className="flex flex-col md:flex-row justify-between items-center px-8 py-6 w-full mt-auto border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950">
-          <div className="font-inter text-xs text-slate-500 mb-4 md:mb-0">
+        <footer className="flex flex-col md:flex-row justify-between items-center px-6 md:px-8 py-10 w-full mt-auto border-t border-white/40 bg-[#e0e5ec] pb-32 md:pb-10">
+          <div className="font-inter text-xs text-slate-400 font-black uppercase tracking-widest mb-6 md:mb-0">
             © 2024 AI Antibiotic Decision System (AADS)
           </div>
-          <div className="flex gap-6">
-            <button onClick={() => setView('guidelines')} className="font-inter text-xs text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors">Clinical Guidelines</button>
-            <button onClick={() => setView('compliance')} className="font-inter text-xs text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors">HIPAA Compliance</button>
-            <button onClick={() => setView('support')} className="font-inter text-xs text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors">Support Center</button>
+          <div className="flex flex-wrap justify-center gap-6">
+            {['Guidelines', 'Compliance', 'Support'].map(f => (
+              <button key={f} onClick={() => setView('support')} className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-blue-700 transition-colors">{f}</button>
+            ))}
           </div>
         </footer>
       </main>
