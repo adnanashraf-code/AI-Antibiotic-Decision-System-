@@ -1,71 +1,63 @@
 # 🧬 AI Antibiotic Decision System (AADS) - Professional Clinical Edition
 
-**AI Antibiotic Decision System (AADS)** is a state-of-the-art, full-stack AI platform designed to transform antimicrobial stewardship. By leveraging advanced machine learning, AADS provides real-time resistance predictions, explainable treatment recommendations, and robust clinical auditing within a high-fidelity, skeuomorphic user interface.
+[![Production Deployment](https://img.shields.io/badge/Status-Hackathon--Ready-blueviolet?style=for-the-badge&logo=vercel)](https://github.com/adnanashraf-code/AI-Antibiotic-Decision-System-)
+[![Design System](https://img.shields.io/badge/Aesthetic-Hybrid--Glassmorphism-blue?style=for-the-badge)](https://github.com/adnanashraf-code/AI-Antibiotic-Decision-System-)
+
+**AI Antibiotic Decision System (AADS)** is a state-of-the-art, full-stack AI platform designed to transform antimicrobial stewardship. By leveraging advanced machine learning, AADS provides real-time resistance predictions, explainable treatment recommendations, and robust clinical auditing within a high-fidelity **Hybrid Glassmorphic** user interface.
 
 ---
 
 ## 📖 Project Overview
-Antimicrobial resistance (AMR) is a global health crisis. **AADS** empowers clinicians with a decision-support tool that predicts the probability of antibiotic resistance for specific bacterial strains based on isolate characteristics and patient history. 
+Antimicrobial resistance (AMR) is a global health crisis. **AADS** empowers clinicians with a decision-support tool that predicts the probability of antibiotic resistance for specific bacterial strains based on isolate characteristics, patient history, and **over 15 refined comorbidities** (COPD, Heart Failure, Malignancy, etc.).
 
-Unlike black-box AI, AADS integrates **Explainable AI (XAI)** using SHAP values, allowing doctors to understand *why* a particular treatment is recommended. The platform is designed for high-stakes environments, featuring role-based dashboards and HIPAA-aligned security protocols.
+Unlike black-box AI, AADS integrates **Explainable AI (XAI)** using SHAP values, allowing doctors to understand *why* a particular treatment is recommended. The platform is designed for high-stakes environments, featuring **Role-Based Clinical Environments** and a mobile-first responsive architecture.
 
 ---
 
-## 📝 Short Summary of Prototype (For Submission Forms)
-> **AADS** is an AI-powered clinical decision support prototype that predicts antibiotic resistance using machine learning (Random Forest). It features a high-fidelity skeuomorphic interface, role-based access control (RBAC), and SHAP-driven explainability to help clinicians make data-driven decisions at the point of care.
-
-## 🔄 Technical Workflow Summary
-> Patient isolate data is sent to a FastAPI backend where an AI model analyzes molecular markers. The results, including resistance probabilities and feature importance (XAI), are visualized on a tactical dashboard, ensuring transparent and actionable medical insights with an automated HIPAA-aligned audit trail.
+## 🔥 Key Innovation: The Hybrid Glassmorphic Experience
+AADS features a world-class UI/UX designed for the modern medical terminal:
+- **Clinical Infrastructure (Skeuomorphism)**: The main dashboard uses grounded, high-fidelity skeuomorphism to provide a stable, professional feel for data entry and monitoring.
+- **Neural Assistant (Dark Glass)**: The AI reasoning hub is a futuristic **Dark Glass** floating panel with **28px backdrop blur** and **Role-Based Neon Glows**, creating a clear visual distinction between grounded data and intelligent insights.
 
 ---
 
 ## 🛠️ Tech Stack & Tools
 
 ### **Frontend**
-- **React 18**: Component-based UI library.
-- **Vite**: Ultra-fast build tool and development server.
-- **TailwindCSS**: Utility-first CSS framework for rapid design.
-- **Skeuomorphic SDS**: Custom design tokens for realistic 3D clinical aesthetics.
-- **Framer Motion**: Smooth micro-animations and transitions.
-- **Recharts**: Data visualization for resistance trends and feature influence.
+- **React 18 & Vite**: Component-based modern frontend.
+- **Hybrid CSS Architecture**: Vanilla CSS + TailwindCSS for the ultimate balance of utility and custom luxury aesthetics.
+- **Skeuo-Glass Design System**: Custom 3D design tokens and glass-dark utility classes.
+- **Framer Motion**: Smooth micro-animations for high-fidelity clinical transitions.
+- **Recharts**: Data visualization for resistance probability indices.
 
 ### **Backend**
-- **FastAPI**: Modern, high-performance Python web framework.
-- **Python 3.10**: Core logic and ML integration.
+- **FastAPI**: High-performance Python web framework (Asynchronous).
 - **Scikit-learn**: Random Forest models for resistance classification.
-- **SHAP (SHapley Additive exPlanations)**: Core engine for model transparency.
-- **Uvicorn**: ASGI server for production-grade hosting.
-
-### **Tools & Workflow**
-- **Git/GitHub**: Version control and CI/CD ready.
-- **Vercel**: Optimized frontend deployment and edge routing.
-- **Render**: Persistent backend hosting for high-compute ML loads.
+- **SHAP Engine**: Core transparency system for model interpretability.
 
 ---
 
-## 🚀 Features
+## 🚀 Specialized Role Environments
 
-### **1. AI-Driven Resistance Prediction**
-- **Inference Node**: Predicts best antibiotic (e.g., Amoxicillin vs. Ciprofloxacin) based on molecular markers.
-- **Confidence Scoring**: 98.4% accuracy index validated against clinical datasets.
+### **1. Doctor Node (Blue Theme)**
+- **Focus**: Diagnosis entry, patient registry, and clinical result analysis.
+- **Workflow**: Automated resistant strain mapping for immediate point-of-care decisions.
 
-### **2. Explainable AI (XAI) Node**
-- **Visual Evidence**: Real-time SHAP force plots showing exactly which markers (e.g., Marker A, Marker B) influenced the AI's decision.
-- **Transparency**: Builds clinician trust by illuminating the logic behind recommendations.
+### **2. Researcher Node (Purple Theme)**
+- **Focus**: Isolate trend analysis and multi-modal resistance tracking.
+- **Workflow**: Access to the "Trend Node" interface for longitudinal studies.
 
-### **3. Multi-Role RBAC (Access Control)**
-- **Doctor Node**: Patient registry, clinical predictions, and lab overview.
-- **Researcher Node**: AI model evaluation and resistance trend analysis.
-- **Admin Node**: Full system oversight, security telemetry, and HIPAA audits.
-- **Patient Portal**: Personalized, secure access to health records and test reports.
+### **3. Admin Node (Teal Theme)**
+- **Focus**: HIPAA Compliance, security telemetry, and live audit trails.
+- **Workflow**: Managing system integrity and monitoring data hygiene.
 
-### **4. Clinical Compliance & Auditing**
-- **Immutable Ledger**: Every PHI (Protected Health Information) access is logged with timestamped SHA-256 signatures for tracking.
-- **HIPAA Alignment**: Built with data privacy and security audit standards in mind.
+---
 
-### **5. Resource Hub**
-- **AADS Guidelines**: In-app SOP manual for clinical reference.
-- **Support Node**: Dispatch system for 24/7 technical engineering escalations.
+## 📱 Mobile-First Clinical UI
+AADS is fully optimized for **Mobile and Tablet** devices:
+- **Adaptive Sidebars**: Mobile-specific navigation overlay and bottom action bars.
+- **Card-Based View**: Data tables automatically transform into readable clinical cards for on-the-go isolate assessment.
+- **Touch-Optimized**: Large action targets and smooth gesture-based interactions.
 
 ---
 
@@ -73,49 +65,39 @@ Unlike black-box AI, AADS integrates **Explainable AI (XAI)** using SHAP values,
 
 ### **Prerequisites**
 - **Node.js** (v16.x or higher)
-- **Python** (v3.9 or higher)
-- **Git**
+- **Python** (v3.10 or higher)
 
-### **1. Clone the Repository**
+### **1. Repository Initialization**
 ```bash
 git clone https://github.com/adnanashraf-code/AI-Antibiotic-Decision-System-.git
 cd AI-Antibiotic-Decision-System-
 ```
 
-### **2. Backend Setup**
-Navigate to the `backend/` directory:
+### **2. Backend Deployment**
 ```bash
 cd backend
 python -m venv venv
-# Windows
-.\venv\Scripts\activate
-# Mac/Linux
-source venv/bin/activate
+.\venv\Scripts\activate  # Windows
 pip install -r requirements.txt
 python main.py
 ```
-*Backend runs on: `http://localhost:8000/`*
 
 ### **3. Frontend Setup**
-Navigate to the `frontend/` directory (open a new terminal):
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
-*Frontend runs on: `http://localhost:5173/`*
 
 ---
 
 ## 🔄 Technical Workflow
 
-1.  **Data Ingestion**: Laboratory molecular data (e.g., PCR result markers) is received via the frontend dashboard.
-2.  **API Transport**: Data is transmitted via a secure, encrypted POST request to the FastAPI backend.
-3.  **ML Inference**: The backend passes data into a **Random Forest Classifier**.
-4.  **SHAP Explanation**: Simultaneously, the **SHAP engine** analyzes the model's decision path.
-5.  **Data Synthesis**: The API returns a JSON payload containing the prediction probabilities + feature influence values.
-6.  **Visual Presentation**: Recharts in the frontend renders a tactile, skeuomorphic "Result Node" with dynamic risk bars and an automated clinical explanation.
-7.  **Audit Logging**: The system automatically generates a timestamped entry in the **Compliance Ledger** for the interaction.
+1.  **Ingestion**: PCR or isolate marker data is entered into the **Skeuomorphic Diagnostic Input**.
+2.  **Inference**: FastAPI processes the markers through a **Random Forest** model ensemble.
+3.  **Explanation**: SHAP values calculate the contribution of each marker (e.g., *Marker A* vs *Comorbidity B*).
+4.  **Synthesis**: The **Dark Glass Assistant** interprets the results with role-specific context (Age-adjusted dosing, safety profiles).
+5.  **Audit**: A cryptographically signed entry is added to the **Clinical Compliance Ledger**.
 
 ---
 
@@ -123,4 +105,4 @@ npm run dev
 *AADS is a clinical decision support tool for authorized healthcare professionals. It is designed to augment, not replace, formal clinical microbiological assessment and medical intuition.*
 
 ---
-**Created for Clinical Excellence.**
+**Crafted for Clinical Excellence & Hackathon Innovation.**
